@@ -32,7 +32,7 @@ done
 
 - **unsetenv FLUX_SCHED_OPTIONS** *# Make sure the scheduler module will do core-level scheduling*
 
-- **srun --pty --mpi=none -N3 /g/g0/dahn/workspace/planner_correction/inst/bin/flux start -o,-S,log-filename=out ensemble.sh**
+- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out ensemble.sh**
 
 ```
 submit: Submitted jobid 1
