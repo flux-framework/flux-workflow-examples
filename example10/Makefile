@@ -1,6 +1,6 @@
 all: conduit.so
 
-FLUX_CORE_LIBS = $(shell pkg-config --libs flux-core) -ljansson
+FLUX_CORE_LIBS = $(shell pkg-config --libs flux-core)
 FLUX_CORE_INCLUDES = $(shell pkg-config --cflags flux-core)
 
 conduit.so: conduit.o
