@@ -18,8 +18,7 @@ def initialize ():
     sock = socket.socket (socket.AF_UNIX, socket.SOCK_STREAM)
     sock.bind (sockname)
     sock.listen (1)
-    rank = os.environ['FLUX_LOCAL_RANKS']
-    cmd = "flux module load -r " + rank + " conduit"
+    cmd = "flux module load conduit"
     os.system (cmd)
 
 def run ():

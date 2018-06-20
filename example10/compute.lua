@@ -1,9 +1,7 @@
 #!/usr/bin/env lua
 
-local f, err = require 'flux' .new ()
+local f = assert (require 'flux' .new ())
 local amount = tonumber (arg[1]) or 120
-local rank = tonumber (os.getenv('FLUX_TASK_RANK')) or 0
-local frank = tonumber (os.getenv('FLUX_LOCAL_RANKS')) or 0
 
 local function sleep (n)
     os.execute ("sleep " .. n)
@@ -29,6 +27,10 @@ print ("Sending " .. payload)
 
 -- this data is ultimately flowed into the data store
 local rc, err = f:send ("conduit.put", { data  = payload }, cr)
+if rc < 0 then
+    print ("error sending a conduit.put request")
+    os.exit (1)
+end
 
 print ("Will compute for " .. amount .. " seconds")
 sleep (amount) 
