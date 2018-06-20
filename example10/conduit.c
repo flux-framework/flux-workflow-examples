@@ -6,7 +6,6 @@
 #include <sys/un.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <jansson.h>
 #include <flux/core.h>
 
 struct conduit_ctx {
