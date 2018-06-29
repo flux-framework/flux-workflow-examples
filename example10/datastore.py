@@ -43,6 +43,8 @@ def run ():
            print "Mallformed data, discarding"
 
     connection.close ()
+    cmd = "flux module remove conduit"
+    os.system (cmd)
     print "Bye bye!"
 
 def main ():

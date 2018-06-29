@@ -10,7 +10,7 @@
 
 - **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
 
-- **setenv FLUX_MODULE_PATH "./:$FLUX_MODULE_PATH"
+- **setenv FLUX_MODULE_PATH "./:$FLUX_MODULE_PATH"**
 - **flux submit -N 1 -n 1 datastore.py**
 
 - **flux submit -N 1 -n 1 compute.lua 1**
@@ -18,7 +18,6 @@
 - **flux submit -N 1 -n 1 compute.lua 1**
 - **flux submit -N 1 -n 1 compute.lua 1**
 
-- **flux module remove conduit**
 - **flux wreck attach 1**
 ```
 Starting....
