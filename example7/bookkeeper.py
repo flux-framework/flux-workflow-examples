@@ -22,6 +22,7 @@ compute_jobreq = {
     'cwd' : os.getcwd (),
     'walltime' : 0,
     'ngpus' : 0,
+    'options': {'nokz': False},
 }
 
 # IO forward job spec
@@ -34,6 +35,7 @@ io_jobreq = {
     'cwd' : os.getcwd (),
     'walltime' : 0,
     'ngpus' : 0,
+    'options': {'nokz': False},
 }
 
 njobs = 0
