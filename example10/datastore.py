@@ -6,13 +6,16 @@ import json
 import sys
 import os
 
-sockname = "/tmp/" + os.environ['USER'] + "/mysock"
+sockdir = os.path.join("/tmp", os.environ['USER'])
+sockname = os.path.join(sockdir, "mysock")
 
 store = {}
 sock = ""
 
 def initialize ():
     global sock
+    if not os.path.exists(sockdir):
+        os.mkdir(sockdir)
     if os.path.exists (sockname):
         os.remove (sockname)
     sock = socket.socket (socket.AF_UNIX, socket.SOCK_STREAM)
