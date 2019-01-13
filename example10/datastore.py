@@ -21,7 +21,7 @@ def initialize ():
     sock = socket.socket (socket.AF_UNIX, socket.SOCK_STREAM)
     sock.bind (sockname)
     sock.listen (1)
-    cmd = "flux module load conduit"
+    cmd = "flux module load ./conduit.so"
     os.system (cmd)
 
 def run ():
