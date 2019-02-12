@@ -61,6 +61,7 @@ static int conduit_send (flux_t *h, const char *json_str)
         flux_log_error (h, "send error %s", __FUNCTION__);
         return rc;
     }
+    flux_log (h, LOG_INFO, "conduit_send succeed");
     return 0;
 }
 
