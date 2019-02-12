@@ -28,7 +28,7 @@ def run ():
     global sock
     global store
     connection, client_address = sock.accept()
-    while True:
+    for x in range (5):
        print "Waiting for a packet"
        mybytes = bytearray (4)
        nbytes, address = connection.recvfrom_into (mybytes, 4)
