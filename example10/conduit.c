@@ -75,7 +75,7 @@ static void conduit_put_request_cb (flux_t *h, flux_msg_handler_t *w,
 
     flux_log (h, LOG_INFO, "conduit_put_request_cb:");
     if (ctx->connected == false) {
-        flux_log (h, LOG_INFO, "conduit not connecte");
+        flux_log (h, LOG_INFO, "conduit not connected");
         errno = ENOTCONN;
         goto done;
     }
