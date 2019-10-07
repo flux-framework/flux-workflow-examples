@@ -16,7 +16,7 @@ compute_jobreq = {
     'nnodes' : 2,
     'ntasks' : 4,
     'ncores' : 8,
-    'cmdline' : ["compute.py", "120"],
+    'cmdline' : ["./compute.py", "120"],
     'environ' : get_environment (),
     'cwd' : os.getcwd (),
     'walltime' : 0,
@@ -27,7 +27,7 @@ io_jobreq = {
     'nnodes' : 1,
     'ntasks' : 1,
     'ncores' : 1,
-    'cmdline' : ["io-forwarding.py", "120"],
+    'cmdline' : ["./io-forwarding.py", "120"],
     'environ' : get_environment (),
     'cwd' : os.getcwd (),
     'walltime' : 0,
@@ -44,4 +44,3 @@ payload = json.dumps (io_jobreq)
 resp = f.rpc_send ("job.submit", payload)
 if resp is None:
     print "flux.rpc: io_jobreq", "failed"
-
