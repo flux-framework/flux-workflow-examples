@@ -12,7 +12,7 @@ local compute_jobreq = {
     nnodes = 2,
     ntasks = 4,
     ncores = 8,
-    cmdline = {"compute.lua", "120"}, 
+    cmdline = {"./compute.lua", "120"},
     environ = wreck:get_filtered_env (),
     cwd = posix.getcwd (),
     walltime = 0,
@@ -23,7 +23,7 @@ local io_jobreq = {
     nnodes =  1,
     ntasks =  1,
     ncores =  1,
-    cmdline = {"io-forwarding.lua", "120"},
+    cmdline = {"./io-forwarding.lua", "120"},
     environ = wreck:get_filtered_env (),
     cwd =     posix.getcwd (),
     walltime = 0,
@@ -47,4 +47,3 @@ end
 if resp.errnum then
     print ("flux.rpc: compute_jobreq" .. resp.errnum)
 end
-
