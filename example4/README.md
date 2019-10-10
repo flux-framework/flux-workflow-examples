@@ -1,10 +1,10 @@
-### 1. Job ensemble submitted with a new flux instance
+### Example 4: Job Ensemble Submitted with a New Flux Instance
 
-- Launch a flux instance and submit one instance of io-forwaring job and 50 compute jobs, each spanning the entire set of nodes.
+#### Description: Launch a flux instance and submit one instance of an io-forwarding job and 50 compute jobs, each spanning the entire set of nodes.
 
-- **salloc -N3 -ppdebug** 
+1. `salloc -N3 -ppdebug`
 
-- **cat ensemble.sh**
+2. `cat ensemble.sh`
 
 ```sh
 #!/usr/bin/env sh
@@ -18,7 +18,7 @@ for i in `seq 1 ${NJOBS}`; do
 done
 
 KEY=$(echo $(flux wreck kvs-path 1).state)
-kvs-watch-until.lua -t ${MAXTIME} ${KEY} 'v == "complete"'
+./kvs-watch-until.lua -t ${MAXTIME} ${KEY} 'v == "complete"'
 flux wreck ls -n 100
 
 # print mock-up prevenance data
@@ -26,13 +26,18 @@ for i in `seq 1 $(expr ${NJOBS} + 1)`; do
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "Jobid: ${i}"
     echo "Cmdline: " "$(flux kvs get $(flux wreck kvs-path ${i}).cmdline)"
-    echo "$(R_lite.lua ${i})" | sed -e 's/^/Resource: /'
+    echo "$(./R_lite.lua ${i})" | sed -e 's/^/Resource: /'
 done
 ```
 
-- **unsetenv FLUX_SCHED_OPTIONS** *# Make sure the scheduler module will do core-level scheduling*
+3. Make sure the scheduler module will do core-level scheduling:
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out ensemble.sh**
+| Shell     | Command                                        |
+| -----     | ----------                                     |
+| tcsh      | `setenv FLUX_SCHED_OPTIONS "node-excl=true"`   |
+| bash/zsh  | `export FLUX_SCHED_OPTIONS='node-excl=true'`   |
+
+4. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out ensemble.sh`
 
 ```
 submit: Submitted jobid 1
