@@ -1,15 +1,19 @@
-### Using Flux job status and control API
+### Example 7 - Using Flux Job Status and Control API
 
-Submit job bundles and wait until all jobs complete
+#### Description: Submit job bundles and wait until all jobs complete
 
-- **salloc -N3 -ppdebug**
+1. `salloc -N3 -ppdebug`
 
-- **unsetenv FLUX_SCHED_OPTIONS**
+2. Make sure the scheduler module will do core-level scheduling:
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+| Shell     | Command                       |
+| -----     | ----------                    |
+| tcsh      | `unsetenv FLUX_SCHED_OPTIONS` |
+| bash/zsh  | `unset FLUX_SCHED_OPTIONS`    |
 
-- **./bookkeeper.py 5**
+3. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
+4. `./bookkeeper.py 5`
 
 ```
 bookkeeper: all jobs submited
@@ -27,4 +31,3 @@ bookkeeper: all jobs completed
      9      6 exited     2018-05-18T18:48:01       5.583s    [0-2] compute.py
     10      3 exited     2018-05-18T18:48:01       5.608s    [0-2] io-forwarding
 ```
-
