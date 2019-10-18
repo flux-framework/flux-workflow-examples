@@ -1,23 +1,41 @@
-### A data conduit strategy
+### Example 10: A Data Conduit Strategy
 
-- **salloc -N3 -ppdebug**
+#### Description: Use a data stream to send packets through
 
-- **setenv PKG_CONFIG_PATH /usr/global/tools/flux/toss_3_x86_64_ib/default/lib/pkgconfig**
+1. `salloc -N3 -ppdebug`
 
-- make
+2. Point to `flux-core`'s `pkgconfig` directory:
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** *# Make sure the scheduler module will do node-exclusive scheduling*
+| Shell     | Command                                                                                  |
+| -----     | ----------                                                                               |
+| tcsh      | `setenv PKG_CONFIG_PATH <FLUX_INSTALL_PATH>/lib/pkgconfig`   |
+| bash/zsh  | `export PKG_CONFIG_PATH='<FLUX_INSTALL_PATH>/lib/pkgconfig'` |
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+3. `make`
 
-- **flux submit -N 1 -n 1 ./datastore.py**
+4. Make sure the scheduler module will do node-exclusive scheduling:
 
-- **flux submit -N 1 -n 1 ./compute.lua 1**
-- **flux submit -N 1 -n 1 ./compute.lua 1**
-- **flux submit -N 1 -n 1 ./compute.lua 1**
-- **flux submit -N 1 -n 1 ./compute.lua 1**
+| Shell     | Command                                        |
+| -----     | ----------                                     |
+| tcsh      | `setenv FLUX_SCHED_OPTIONS "node-excl=true"`   |
+| bash/zsh  | `export FLUX_SCHED_OPTIONS='node-excl=true'`   |
 
-- **flux wreck attach 1**
+5. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+6. `flux submit -N 1 -n 1 ./datastore.py`
+
+7. `flux submit -N 1 -n 1 ./compute.lua 1`
+
+8. `flux submit -N 1 -n 1 ./compute.lua 1`
+
+9. `flux submit -N 1 -n 1 ./compute.lua 1`
+
+10. `flux submit -N 1 -n 1 ./compute.lua 1`
+
+11. Attach to running/completed job:
+
+`flux wreck attach 1`
+
 ```
 Starting....
 Waiting for a packet
