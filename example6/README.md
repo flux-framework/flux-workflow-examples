@@ -1,14 +1,19 @@
-### Hierarchical Launching
+### Example 6 - Hierarchical Launching
 
-- Launching over one million sleep 0 task
+#### Description: Launch a very large ensemble of sleep 0 tasks
 
-- **salloc -N3 -ppdebug** 
+1. `salloc -N3 -ppdebug`
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** *# Make sure the scheduler module will do core-level scheduling*
+2. Make sure the scheduler module will do core-level scheduling:
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+| Shell     | Command                       |
+| -----     | ----------                    |
+| tcsh      | `unsetenv FLUX_SCHED_OPTIONS` |
+| bash/zsh  | `unset FLUX_SCHED_OPTIONS`    |
 
-- **parent.sh**
+3. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+`./parent.sh`
 
 ```
 Mon May 14 19:42:08 PDT 2018
@@ -22,3 +27,8 @@ submit: Submitted jobid 3
 First Level Done
 Mon May 14 19:51:31 PDT 2018
 ```
+
+#### Notes
+
+- You can increase the number of jobs by increasing `NCORES` in `parent.sh` and
+`NJOBS` in `ensemble.sh`.
