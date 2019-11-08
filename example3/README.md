@@ -1,16 +1,29 @@
-### Using events to synchronize compute and io-forwarding jobs running on separate nodes
+### Example 3 - Using Events with Separate Nodes
 
-- **salloc -N3 -ppdebug** 
+#### Description: Using events to synchronize compute and io-forwarding jobs running on separate nodes
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** *# Make sure the scheduler module will do node-exclusive scheduling*
+1. `salloc -N3 -ppdebug`
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+2. Make sure the scheduler module will do node-exclusive scheduling
 
-- **flux submit --nnodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120**
+| Shell     | Command                                        |
+| -----     | ----------                                     |
+| tcsh      | `setenv FLUX_SCHED_OPTIONS "node-excl=true"`   |
+| bash/zsh  | `export FLUX_SCHED_OPTIONS='node-excl=true'`   |
 
-- **flux submit --nnodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120**
+3. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-- **flux wreck ls**
+4. `flux submit --nnodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
+
+**Output -** `submit: Submitted jobid 1`
+
+5. `flux submit --nnodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
+
+**Output -** `submit: Submitted jobid 2`
+
+6. List jobs in KVS:
+
+`flux wreck ls`
 
 ```
     ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
@@ -18,7 +31,9 @@
      2      1 running    2018-05-11T17:41:56       0.105s        2 io-forwarding
 ```
 
-- **flux wreck attach 1**
+7. Attach to running or completed job output:
+
+`flux wreck attach 1`
 
 ```
 1: Block until we hear go message from the an io forwarder
@@ -34,4 +49,3 @@
 3: Will compute for 10 seconds
 0: Will compute for 10 seconds
 ```
-
