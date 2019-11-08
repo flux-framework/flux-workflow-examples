@@ -27,3 +27,8 @@ submit: Submitted jobid 3
 First Level Done
 Mon May 14 19:51:31 PDT 2018
 ```
+
+#### Notes
+
+- You can increase the number of jobs by increasing `NCORES` in `parent.sh` and
+`NJOBS` in `ensemble.sh`.
