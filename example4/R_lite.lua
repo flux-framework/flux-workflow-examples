@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 
-local cpuset = require 'flux.cpuset'
+local cpuset = require 'flux.affinity'.cpuset
 local id_to_kvs_path = require 'wreck'.id_to_path
 local f = assert (require 'flux'.new())
 local jobid = tonumber (arg[1])
@@ -26,7 +26,7 @@ local function usage ()
       Format      if "count" is given, print only the count on the resource(s)
                   if "id", print only the ID of the resource(s)
                   if omitted, print both the count and ID.
-]]) 
+]])
 end
 
 local function r_string (resources, count, id)
