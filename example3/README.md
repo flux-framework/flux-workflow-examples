@@ -1,37 +1,44 @@
-### Using events to synchronize compute and io-forwarding jobs running on separate nodes
+### Example 3 - Using Events with Separate Nodes
 
-- **salloc -N3 -ppdebug** 
+#### Description: Using events to synchronize compute and io-forwarding jobs running on separate nodes
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** *# Make sure the scheduler module will do node-exclusive scheduling*
+1. `salloc -N3 -ppdebug`
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-- **flux submit --nnodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120**
+3. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
 
-- **flux submit --nnodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120**
+**Output -** `901355929600`
 
-- **flux wreck ls**
+4. `flux submit --nnodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
 
-```
-    ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
-     1      4 running    2018-05-11T17:41:56       6.446s    [0-1] compute.lua
-     2      1 running    2018-05-11T17:41:56       0.105s        2 io-forwarding
-```
+**Output -** `1244299001856`
 
-- **flux wreck attach 1**
+5. List running jobs:
+
+`flux job list`
 
 ```
-1: Block until we hear go message from the an io forwarder
-2: Block until we hear go message from the an io forwarder
-3: Block until we hear go message from the an io forwarder
-0: Block until we hear go message from the an io forwarder
-1: Recv an event: please proceed
-2: Recv an event: please proceed
-3: Recv an event: please proceed
-0: Recv an event: please proceed
-1: Will compute for 10 seconds
-2: Will compute for 10 seconds
-3: Will compute for 10 seconds
-0: Will compute for 10 seconds
+JOBID		       STATE	  USERID   PRI     T_SUBMIT
+901355929600	   R	      58985	   16	   2019-10-22T16:27:02Z
+1244299001856	   R	      58985	   16	   2019-10-22T16:27:26Z
 ```
 
+6. Attach to running or completed job output:
+
+`flux job attach 901355929600`
+
+```
+Block until we hear go message from the an io forwarder
+Block until we hear go message from the an io forwarder
+Recv an event: please proceed
+Recv an event: please proceed
+Will compute for 120 seconds
+Will compute for 120 seconds
+Block until we hear go message from the an io forwarder
+Block until we hear go message from the an io forwarder
+Recv an event: please proceed
+Recv an event: please proceed
+Will compute for 120 seconds
+Will compute for 120 seconds
+```
