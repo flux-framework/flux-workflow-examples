@@ -1,24 +1,12 @@
-### KZ stream examples
+### Example 8 - Using a KZ stream
 
-- Using kz stream interface to fetch a job's stdout
+#### Description: Use a KZ stream interface to fetch a job's stdout
 
-- **/usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -s 2 -o,-S,log-filename=out**
+1. `flux start -s 2 -o,-S,log-filename=out`
 
-- **flux submit -N 2 -n 2 hostname**
+2. `./fetch-stdout.sh`
 
 ```
-submit: Submitted jobid 1
+1639083671552
+"quartz1922"
 ```
-
-- **fetch-stdout.py**
-```
-quartz1922
-quartz1922
-```
-
-- **fetch-stdout.lua**
-```
-quartz1922
-quartz1922
-```
-
