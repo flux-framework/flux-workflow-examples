@@ -57,7 +57,7 @@ static void io_request_cb (flux_t *h, flux_msg_handler_t *w,
 
 error:
     flux_log_error (h, "%s", __FUNCTION__);
-    if (flux_respond (h, msg, errno, NULL) < 0)
+    if (flux_respond (h, msg, NULL) < 0)
         flux_log_error (h, "%s: flux_respond", __FUNCTION__);
 }
 #endif
@@ -81,7 +81,7 @@ static void comp_request_cb (flux_t *h, flux_msg_handler_t *w,
 
 error:
     flux_log_error (h, "%s", __FUNCTION__);
-    if (flux_respond (h, msg, errno, NULL) < 0)
+    if (flux_respond (h, msg, NULL) < 0)
         flux_log_error (h, "%s: flux_respond", __FUNCTION__);
 }
 #endif
