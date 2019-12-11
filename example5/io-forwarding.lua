@@ -5,6 +5,7 @@ local f = flux.new ()
 local amount = tonumber (arg[1]) or 120
 local rank = tonumber (os.getenv('FLUX_TASK_RANK')) or 0
 local frank = tonumber (os.getenv('FLUX_LOCAL_RANKS')) or 0
+io.stdout:setvbuf ("no")
 
 local function sleep (n)
     os.execute ("sleep " .. n)
@@ -50,7 +51,7 @@ if not resp then
 end
 
 print ("Will forward IO requests for " .. amount .. " seconds")
-sleep (amount) 
+sleep (amount)
 f:unsubscribe ("app.comp.go")
 
 -- vi: ts=4 sw=4 expandtab

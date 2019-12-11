@@ -4,6 +4,7 @@ local f, err = require 'flux' .new ()
 local amount = tonumber (arg[1]) or 120
 local rank = tonumber (os.getenv('FLUX_TASK_RANK')) or 0
 local frank = tonumber (os.getenv('FLUX_LOCAL_RANKS')) or 0
+io.stdout:setvbuf ("no")
 
 local function sleep (n)
     os.execute ("sleep " .. n)
@@ -55,7 +56,7 @@ else
 end
 
 print ("Will compute for " .. amount .. " seconds")
-sleep (amount) 
+sleep (amount)
 f:unsubscribe ("app.io.go")
 
 -- vi: ts=4 sw=4 expandtab
