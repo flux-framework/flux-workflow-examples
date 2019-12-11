@@ -1,12 +1,32 @@
-### Using a Flux comms module to comminicate with job elements
+### Example 5 - Using a Flux Comms Module
 
-- **salloc -N3 -ppdebug** 
+#### Description: Use a Flux comms module to communicate with job elements
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** *# Make sure the scheduler module will do node-exclusive scheduling*
+1. `salloc -N3 -ppdebug`
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+2. Point to `flux-core`'s `pkgconfig` directory:
 
-- **flux submit -N 2 -n 2 compute.lua 120**
+| Shell     | Command                                                      |
+| -----     | ----------                                                   |
+| tcsh      | `setenv PKG_CONFIG_PATH <FLUX_INSTALL_PATH>/lib/pkgconfig`   |
+| bash/zsh  | `export PKG_CONFIG_PATH='<FLUX_INSTALL_PATH>/lib/pkgconfig'` |
 
-- **flux submit -N 2 -n 2 io-forwarding.lua 120**
+3. `make`
 
+4. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was
+built in the current dir:
+
+`export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
+
+5. Make sure the scheduler module will do node-exclusive scheduling:
+
+| Shell     | Command                                        |
+| -----     | ----------                                     |
+| tcsh      | `setenv FLUX_SCHED_OPTIONS "node-excl=true"`   |
+| bash/zsh  | `export FLUX_SCHED_OPTIONS='node-excl=true'`   |
+
+6. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+7. `flux submit -N 2 -n 2 ./compute.lua 120`
+
+8. `flux submit -N 1 -n 1 ./io-forwarding.lua 120`
