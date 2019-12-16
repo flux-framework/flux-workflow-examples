@@ -4,44 +4,24 @@ import json
 import os
 import re
 import flux
-#from flux.rpc import rpc
+from flux.job import JobspecV1
 
-def get_environment():
-    env = dict()
-    for key in os.environ:
-        env[key] = os.environ[key]
-    return env
-
-compute_jobreq = {
-    'nnodes' : 2,
-    'ntasks' : 4,
-    'ncores' : 8,
-    'cmdline' : ["compute.py", "120"],
-    'environ' : get_environment (),
-    'cwd' : os.getcwd (),
-    'walltime' : 0,
-    'ngpus' : 0,
-}
-
-io_jobreq = {
-    'nnodes' : 1,
-    'ntasks' : 1,
-    'ncores' : 1,
-    'cmdline' : ["io-forwarding.py", "120"],
-    'environ' : get_environment (),
-    'cwd' : os.getcwd (),
-    'walltime' : 0,
-    'ngpus' : 0,
-}
-
-payload = json.dumps (compute_jobreq)
 f = flux.Flux ()
-resp = f.rpc_send ("job.submit", payload)
-if resp is None:
-    print "flux.rpc: compute_jobreq", "failed"
 
-payload = json.dumps (io_jobreq)
-resp = f.rpc_send ("job.submit", payload)
-if resp is None:
-    print "flux.rpc: io_jobreq", "failed"
+compute_jobreq = JobspecV1.from_command (
+    command=["./compute.py", "120"],
+    num_tasks=4,
+    num_nodes=2,
+    cores_per_task=2)
+compute_jobreq.cwd = os.getcwd ()
+compute_jobreq.environment = dict (os.environ)
+print (flux.job.submit (f, compute_jobreq))
 
+io_jobreq = JobspecV1.from_command (
+    command=["./io-forwarding.py", "120"],
+    num_tasks=1,
+    num_nodes=1,
+    cores_per_task=1)
+io_jobreq.cwd = os.getcwd ()
+io_jobreq.environment = dict (os.environ)
+print (flux.job.submit (f, io_jobreq))
