@@ -1,69 +1,97 @@
-### Using direct job.submit RPC
+### Example 2(a) - Using a direct job.submit RPC
 
-Schedule/launch compute and io-forwarding jobs on separate nodes
+#### Description: Schedule and launch compute and io-forwarding jobs on separate nodes
 
-- **salloc -N3 -ppdebug**
+1. Allocate three nodes from a resource manager:
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** # Make sure the scheduler module will do node-exclusive scheduling 
+`salloc -N3 -p pdebug`
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
 
-- **./submitter.lua** # or ./submitter.py
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-- **flux wreck ls**
+3. Run the submitter executable:
 
-```
-    ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
-     1      4 running    2018-05-11T17:41:56       6.446s    [0-1] compute.lua
-     2      1 running    2018-05-11T17:41:56       0.105s        2 io-forwarding
-```
+`./submitter.py`
 
-- **flux kvs get lwj.0.0.1.R_lite**
+4. List currently running jobs:
+
+`flux job list`
 
 ```
-[ { "node": "quartz23", "children": { "core": "0-3" }, "rank": 0 },
-  { "node": "quartz24", "children": { "core": "0-3" }, "rank": 1 } ]
+JOBID		STATE	USERID	PRI	NAME		T_SUBMIT
+316703506432	R	58985	16	./io-forwarding	2019-12-16T21:54:19Z
+316250521600	R	58985	16	./compute.py   	2019-12-16T21:54:19Z
 ```
 
-- **flux kvs get lwj.0.0.2.R_lite**
+5. Information about jobs, such as the submitted job specification, an eventlog, and the resource description format **R** are stored in the KVS. The data can be queried via the `job-info` module via the `flux job info` command. For example, to fetch **R** for a job which has been allocated resources:
+
+`flux job info 316703506432 R`
 
 ```
-[ { "node": "quartz25", "children": { "core": "0" }, "rank": 2 } ]
+{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
 ```
 
-### job.submit RPC example 2
-
-Sschedule/launch both compute and io-forwarding jobs across all nodes
-
-- **salloc -N3 -ppdebug**
-
-- **unsetenv FLUX_SCHED_OPTIONS** # Make sure the scheduler module will do core-level scheduling
-
-- **srun --pty --mpi=none -N3 /g/g0/dahn/workspace/planner_correction/inst/bin/flux start -o,-S,log-filename=out**
-
-- **./submitter2.lua** #or ./submitter2.py
-
-- **flux wreck ls**
+`flux job info 316250521600 R`
 
 ```
-    ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
-     1      6 running    2018-05-11T17:48:31       3.416s    [0-2] compute.lua
-     2      3 running    2018-05-11T17:48:31       3.408s    [0-2] io-forwarding
+{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0"}}]}}
 ```
 
-- **flux kvs get lwj.0.0.1.R_lite**
+### Example 2(b) - Using a direct job.submit RPC
 
-```json
-[ { "node": "quartz23", "children": { "core": "0-3" }, "rank": 0 },
-  { "node": "quartz24", "children": { "core": "0-3" }, "rank": 1 },
-  { "node": "quartz25", "children": { "core": "0-3" }, "rank": 2 } ]
+#### Description: Schedule and launch both compute and io-forwarding jobs across all nodes
+
+1. Allocate three nodes from a resource manager:
+
+`salloc -N3 -p pdebug`
+
+2. Launch another Flux instance on the current allocation:  
+
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3. Run the second submitter executable:
+
+`./submitter2.py`
+
+4. List currently running jobs:
+
+`flux job list`
+
+```
+JOBID		STATE	USERID	PRI	NAME		T_SUBMIT
+266187309056	R	58985	16	./io-forwarding	2019-12-16T22:01:59Z
+265767878656	R	58985	16	./compute.py   	2019-12-16T22:01:59Z
 ```
 
-- **flux kvs get lwj.0.0.2.R_lite**
+5. Fetch **R** for the jobs that have been allocated resources:
 
-```json
-[ { "node": "quartz23", "children": { "core": "4" }, "rank": 0 },
-  { "node": "quartz24", "children": { "core": "4" }, "rank": 1 },
-  { "node": "quartz25", "children": { "core": "4" }, "rank": 2 } ]
+`flux job info 266187309056 R`
+
+```
+{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"4"}}]}}
 ```
 
+`flux job info 265767878656 R`
+
+```
+{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}
+```
+
+---
+
+##### Notes
+
+- `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
+
+
+- The following constructs a job request using the **JobspecV1** class with customizable parameters for how you want to utilize the resources allocated for your job:
+```python
+compute_jobreq = JobspecV1.from_command(
+    command=["./compute.py", "120"], num_tasks=4, num_nodes=2, cores_per_task=2
+)
+compute_jobreq.cwd = os.getcwd()
+compute_jobreq.environment = dict(os.environ)
+```
+
+- `flux.job.submit(f, compute_jobreq)` submits the job to be run, and returns a job ID once it begins running.
