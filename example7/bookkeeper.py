@@ -38,7 +38,7 @@ def submit_bundles(f, N):
         print (flux.job.submit(f, compute_jobreq))
         print (flux.job.submit(f, io_jobreq))
 
-    print "bookkeeper: all jobs submited"
+    print "bookkeeper: all jobs submitted"
 
 
 # main

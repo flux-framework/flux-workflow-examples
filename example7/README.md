@@ -1,30 +1,34 @@
-### Using Flux job status and control API
+### Example 7 - Using Flux Job Status and Control API
 
-Submit job bundles and wait until all jobs complete
+#### Description: Submit job bundles and wait until all jobs complete
 
-- **salloc -N3 -ppdebug**
+1. `salloc -N3 -ppdebug`
 
-- **unsetenv FLUX_SCHED_OPTIONS**
+2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
-
-- **./bookkeeper.py 5**
-
+3. `./bookkeeper.py 5`
 
 ```
-bookkeeper: all jobs submited
+bookkeeper: all jobs submitted
 bookkeeper: waiting until all jobs complete
+job 1417322430464 changed its state to DEPEND
+job 1417322430464 changed its state to SCHED
+job 1417758638080 changed its state to DEPEND
+job 1417758638080 changed its state to SCHED
+job 1418161291264 changed its state to DEPEND
+job 1418161291264 changed its state to SCHED
+.
+.
+.
+job 282058555392 changed its state to CLEANUP
+job 285564993536 changed its state to CLEANUP
+.
+.
+.
+job 282058555392 changed its state to INACTIVE
+job 285564993536 changed its state to INACTIVE
+.
+.
+.
 bookkeeper: all jobs completed
-    ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
-     1      6 exited     2018-05-18T18:48:01       5.724s    [0-2] compute.py
-     2      3 exited     2018-05-18T18:48:01       5.742s    [0-2] io-forwarding
-     3      6 exited     2018-05-18T18:48:01       5.729s    [0-2] compute.py
-     4      3 exited     2018-05-18T18:48:01       5.647s    [0-2] io-forwarding
-     5      6 exited     2018-05-18T18:48:01       5.661s    [0-2] compute.py
-     6      3 exited     2018-05-18T18:48:01       5.611s    [0-2] io-forwarding
-     7      6 exited     2018-05-18T18:48:01       5.667s    [0-2] compute.py
-     8      3 exited     2018-05-18T18:48:01       5.633s    [0-2] io-forwarding
-     9      6 exited     2018-05-18T18:48:01       5.583s    [0-2] compute.py
-    10      3 exited     2018-05-18T18:48:01       5.608s    [0-2] io-forwarding
 ```
-
