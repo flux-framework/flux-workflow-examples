@@ -2,11 +2,17 @@
 
 #### Description: Submit job bundles and wait until all jobs complete
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from a resource manager:
 
-2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+`salloc -N3 -p pdebug`
 
-3. `./bookkeeper.py 5`
+2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3. Run the bookkeeper executable:
+
+`./bookkeeper.py 5`
 
 ```
 bookkeeper: all jobs submitted
@@ -31,4 +37,32 @@ job 285564993536 changed its state to INACTIVE
 .
 .
 bookkeeper: all jobs completed
+```
+
+---
+
+##### Notes
+
+- `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
+
+
+- The following constructs a job request using the **JobspecV1** class with customizable parameters for how you want to utilize the resources allocated for your job:
+```
+compute_jobreq = JobspecV1.from_command(
+    command=["./compute.py", "120"], num_tasks=4, num_nodes=2, cores_per_task=2
+)
+compute_jobreq.cwd = os.getcwd()
+compute_jobreq.environment = dict(os.environ)
+```
+
+- `flux.job.submit(f, compute_jobreq)` submits the job to be run, and returns a job ID once it begins running.
+
+- Throughout the course of a job, its state will go through a number of changes. The following subscribes to the event messages matching the transition of those states in the jobs submitted.
+```
+f.event_subscribe("job-state")
+f.msg_watcher_create(job_state_cb, 0, "job-state").start()
+submit_bundles(f, args.integer)
+print "bookkeeper: waiting until all jobs complete
+f.reactor_run(f.get_reactor(), 0)
+print "bookkeeper: all jobs completed"
 ```
