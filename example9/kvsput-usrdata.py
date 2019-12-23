@@ -6,20 +6,19 @@ import os
 from flux import kvs
 
 f = flux.Flux ()
-job_path = os.environ['FLUX_JOB_KVSPATH']
-udata = job_path + ".usrdata"
+udata = "hello world"
 # using function interface
-kvs.put (f, udata, "mydata")
+kvs.put (f, "usrdata", udata)
 # commit is required to effect the above put op to the server
 kvs.commit (f)
-print kvs.get (f, udata)
+print kvs.get (f, "usrdata")
 
 # get on a directory will return KVSDir object which support
 # with compound statement. "with" guarantees commit is called
 # on the directory if job_path is a valid input.
-with kvs.get (f, job_path) as kd:
-   kd['usrdata2'] = "mydata2"
+with kvs.get (f, ".") as kd:
+   kd['usrdata2'] = "hello world again"
 
-print kvs.get (f, job_path + ".usrdata2")
+print kvs.get (f, "usrdata2")
 
 # vi: ts=4 sw=4 expandtab
