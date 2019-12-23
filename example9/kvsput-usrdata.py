@@ -13,9 +13,9 @@ kvs.put (f, "usrdata", udata)
 kvs.commit (f)
 print kvs.get (f, "usrdata")
 
-# get on a directory will return KVSDir object which support
-# with compound statement. "with" guarantees commit is called
-# on the directory if job_path is a valid input.
+# get() on a directory will return a KVSDir object which supports
+# the "with" compound statement. "with" guarantees a commit is called
+# on the directory.
 with kvs.get (f, ".") as kd:
    kd['usrdata2'] = "hello world again"
 
