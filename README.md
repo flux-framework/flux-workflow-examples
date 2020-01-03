@@ -31,16 +31,10 @@ Launch a large number of sleep 0 jobs
 
 Submit job bundles and wait until all jobs complete
 
-**_8. [KZ Stream Examples](https://github.com/flux-framework/flux-workflow-examples/tree/master/example8)_**
-
-Use a KZ stream interface to fetch a job's STDOUT
-
-_Note: This example is in the process of being reworked to show different functionality within Flux._
-
-**_9. [Simple KVS Python Binding Example](https://github.com/flux-framework/flux-workflow-examples/tree/master/example9)_**
+**_8. [Simple KVS Python Binding Example](https://github.com/flux-framework/flux-workflow-examples/tree/master/example9)_**
 
 Use KVS Python interfaces to store user data into KVS
 
-**_10. [A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/example10)_**
+**_9. [A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/example10)_**
 
 Attach to a job that receives OS time data from compute jobs
