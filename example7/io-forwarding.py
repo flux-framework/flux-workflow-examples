@@ -13,5 +13,5 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-print "Will forward I/O requests for " + str(args.integer) + " seconds."
+print("Will forward I/O requests for " + str(args.integer) + " seconds.")
 time.sleep(args.integer)

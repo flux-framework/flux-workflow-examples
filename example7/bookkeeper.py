@@ -24,7 +24,7 @@ def job_state_cb(f, typemask, message, arg):
     global njobs
     N = args.integer
     for jobid, state in message.payload["transitions"]:
-        print ("job " + str(jobid) + " changed its state to " + str(state))
+        print("job " + str(jobid) + " changed its state to " + str(state))
         if state == "INACTIVE":
             njobs += 1
         if njobs == N * 2:
@@ -35,10 +35,10 @@ def job_state_cb(f, typemask, message, arg):
 def submit_bundles(f, N):
     f = flux.Flux()
     for i in range(0, N):
-        print (flux.job.submit(f, compute_jobreq))
-        print (flux.job.submit(f, io_jobreq))
+        print(flux.job.submit(f, compute_jobreq))
+        print(flux.job.submit(f, io_jobreq))
 
-    print "bookkeeper: all jobs submitted"
+    print("bookkeeper: all jobs submitted")
 
 
 # main
@@ -61,9 +61,9 @@ def main():
     f.event_subscribe("job-state")
     f.msg_watcher_create(job_state_cb, 0, "job-state").start()
     submit_bundles(f, args.integer)
-    print "bookkeeper: waiting until all jobs complete"
+    print("bookkeeper: waiting until all jobs complete")
     f.reactor_run(f.get_reactor(), 0)
-    print "bookkeeper: all jobs completed"
+    print("bookkeeper: all jobs completed")
 
 
 main()
