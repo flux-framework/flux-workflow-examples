@@ -47,7 +47,7 @@ bookkeeper: all jobs completed
 
 
 - The following constructs a job request using the **JobspecV1** class with customizable parameters for how you want to utilize the resources allocated for your job:
-```
+```python
 compute_jobreq = JobspecV1.from_command(
     command=["./compute.py", "120"], num_tasks=4, num_nodes=2, cores_per_task=2
 )
@@ -58,11 +58,11 @@ compute_jobreq.environment = dict(os.environ)
 - `flux.job.submit(f, compute_jobreq)` submits the job to be run, and returns a job ID once it begins running.
 
 - Throughout the course of a job, its state will go through a number of changes. The following subscribes to the event messages matching the transition of those states in the jobs submitted.
-```
+```python
 f.event_subscribe("job-state")
 f.msg_watcher_create(job_state_cb, 0, "job-state").start()
 submit_bundles(f, args.integer)
-print "bookkeeper: waiting until all jobs complete
+print("bookkeeper: waiting until all jobs complete)
 f.reactor_run(f.get_reactor(), 0)
-print "bookkeeper: all jobs completed"
+print("bookkeeper: all jobs completed")
 ```
