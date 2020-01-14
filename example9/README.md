@@ -1,56 +1,73 @@
-### Example 9 - KVS Python Binding Example
+### Example10 - A Data Conduit Strategy
 
-#### Description: Use the KVS Python interface to store user data into KVS
+#### Description: Use a data stream to send packets through
 
-1. Launch a Flux instance by running `flux start`, redirecting log messages to the file `out` in the current directory:
+1. Allocate three nodes from a resource manager:
 
-`flux start -s 1 -o,-S,log-filename=out`
+`salloc -N3 -ppdebug`
 
-2. Submit the Python script:
+2. Point to `flux-core`'s `pkgconfig` directory:
 
-`flux submit -N 1 -n 1 ./kvsput-usrdata.py`
+| Shell     | Command                                                      |
+| -----     | ----------                                                   |
+| tcsh      | `setenv PKG_CONFIG_PATH <FLUX_INSTALL_PATH>/lib/pkgconfig`   |
+| bash/zsh  | `export PKG_CONFIG_PATH='<FLUX_INSTALL_PATH>/lib/pkgconfig'` |
+
+3. `make`
+
+4. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was built in the current dir:
+
+`export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
+
+5. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+6. Submit the **datastore** script:
+
+`flux submit -N 1 -n 1 ./datastore.py`
+
+7. Submit and resubmit five **compute** scripts to send time data to **datastore**:
+
+`flux submit -N 1 -n 1 ./compute.py 1`
+
+`flux submit -N 1 -n 1 ./compute.py 1`
+
+`flux submit -N 1 -n 1 ./compute.py 1`
+
+`flux submit -N 1 -n 1 ./compute.py 1`
+
+`flux submit -N 1 -n 1 ./compute.py 1`
+
+8. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
+
+`flux job attach 1900070043648`
 
 ```
-6705031151616
+Starting....
+Module was loaded successfully...
+finished initialize...
+starting run()
+Waiting for a packet
+{u'test': 101}
+Waiting for a packet
+{u'test': 101, u'1578431137': u'os.time'}
+Waiting for a packet
+{u'test': 101, u'1578431137': u'os.time', u'1578431139': u'os.time'}
+Waiting for a packet
+{u'test': 101, u'1578431140': u'os.time', u'1578431137': u'os.time', u'1578431139': u'os.time'}
+Waiting for a packet
+{u'test': 101, u'1578431140': u'os.time', u'1578431137': u'os.time', u'1578431139': u'os.time', u'1578431141': u'os.time'}
+Bye bye!
+run finished...
 ```
 
-3. Attach to the job and view output:
-
-`flux job attach 6705031151616`
-
-```
-hello world
-hello world again
-```
-
-4. Each job is run within a KVS namespace. `FLUX_KVS_NAMESPACE` is set, which is automatically read and used by the KVS operations in the handle. To take a look at the job's KVS, convert its job ID to KVS:
-
-`flux job id --from=dec --to=kvs 6705031151616`
-
-```
-job.0000.0619.2300.0000
-```
-
-5. The keys for this job will be put at the root of the namespace, which is mounted under "guest". To get the value stored under the first key "usrdata":
-
-`flux kvs get job.0000.0619.2300.0000.guest.usrdata`
-
-```
-"hello world"
-```
-
-6. Get the value stored under the second key "usrdata2":
-
-`flux kvs get job.0000.0619.2300.0000.guest.usrdata2`
-
-```
-"hello world again"
-```
+---
 
 ##### Notes
 
 - `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 
-- `kvs.put()` places the value of _udata_ under the key **"usrdata"**. Once the key-value pair is put, the change must be committed with `kvs.commit()`. The value can then be retrieved with `kvs.get()`
+- `kvs.put()` places the value of _udata_ under the key **"conduit"**. Once the key-value pair is put, the change must be committed with `kvs.commit()`. The value can then be retrieved with `kvs.get()`.
 
-- `kvs.get()` on a directory will return a KVSDir object which supports the `with` compound statement. `with` guarantees a commit is called on the directory.
+- `f.rpc()` creates a new RPC object consisting of a specified topic and payload (along with additional flags) that are exchanged with a Flux service.
