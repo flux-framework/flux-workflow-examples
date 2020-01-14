@@ -1,96 +1,73 @@
-<<<<<<< HEAD
-### A data conduit strategy
+### Example10 - A Data Conduit Strategy
 
-- **salloc -N3 -ppdebug**
+#### Description: Use a data stream to send packets through
 
-- **setenv PKG_CONFIG_PATH /usr/global/tools/flux/toss_3_x86_64_ib/default/lib/pkgconfig**
+1. Allocate three nodes from a resource manager:
 
-- make
+`salloc -N3 -ppdebug`
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** *# Make sure the scheduler module will do node-exclusive scheduling*
+2. Point to `flux-core`'s `pkgconfig` directory:
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+| Shell     | Command                                                      |
+| -----     | ----------                                                   |
+| tcsh      | `setenv PKG_CONFIG_PATH <FLUX_INSTALL_PATH>/lib/pkgconfig`   |
+| bash/zsh  | `export PKG_CONFIG_PATH='<FLUX_INSTALL_PATH>/lib/pkgconfig'` |
 
-- **flux submit -N 1 -n 1 ./datastore.py**
+3. `make`
 
-- **flux submit -N 1 -n 1 ./compute.lua 1**
-- **flux submit -N 1 -n 1 ./compute.lua 1**
-- **flux submit -N 1 -n 1 ./compute.lua 1**
-- **flux submit -N 1 -n 1 ./compute.lua 1**
-=======
-### Example 9 - KVS Python Binding Example
+4. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was built in the current dir:
 
-#### Description: Use the KVS Python interface to store user data into KVS
+`export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
 
-1. Launch a Flux instance by running `flux start`, redirecting log messages to the file `out` in the current directory:
+5. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
 
-`flux start -s 1 -o,-S,log-filename=out`
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-2. Submit the Python script:
+6. Submit the **datastore** script:
 
-`flux submit -N 1 -n 1 ./kvsput-usrdata.py`
+`flux submit -N 1 -n 1 ./datastore.py`
 
-```
-6705031151616
-```
+7. Submit and resubmit five **compute** scripts to send time data to **datastore**:
 
-3. Attach to the job and view output:
+`flux submit -N 1 -n 1 ./compute.py 1`
 
-`flux job attach 6705031151616`
+`flux submit -N 1 -n 1 ./compute.py 1`
 
-```
-hello world
-hello world again
-```
+`flux submit -N 1 -n 1 ./compute.py 1`
 
-4. Each job is run within a KVS namespace. `FLUX_KVS_NAMESPACE` is set, which is automatically read and used by the KVS operations in the handle. To take a look at the job's KVS, convert its job ID to KVS:
+`flux submit -N 1 -n 1 ./compute.py 1`
 
-`flux job id --from=dec --to=kvs 6705031151616`
+`flux submit -N 1 -n 1 ./compute.py 1`
+
+8. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
+
+`flux job attach 1900070043648`
 
 ```
-job.0000.0619.2300.0000
-```
-
-5. The keys for this job will be put at the root of the namespace, which is mounted under "guest". To get the value stored under the first key "usrdata":
-
-`flux kvs get job.0000.0619.2300.0000.guest.usrdata`
-
-```
-"hello world"
-```
-
-6. Get the value stored under the second key "usrdata2":
-
-`flux kvs get job.0000.0619.2300.0000.guest.usrdata2`
->>>>>>> master
-
-- **flux wreck attach 1**
-```
-<<<<<<< HEAD
 Starting....
+Module was loaded successfully...
+finished initialize...
+starting run()
 Waiting for a packet
 {u'test': 101}
 Waiting for a packet
-{u'test': 101, u'1527743330': u'os.time'}
+{u'test': 101, u'1578431137': u'os.time'}
 Waiting for a packet
-{u'test': 101, u'1527743331': u'os.time', u'1527743330': u'os.time'}
+{u'test': 101, u'1578431137': u'os.time', u'1578431139': u'os.time'}
 Waiting for a packet
-{u'test': 101, u'1527743331': u'os.time', u'1527743330': u'os.time'}
+{u'test': 101, u'1578431140': u'os.time', u'1578431137': u'os.time', u'1578431139': u'os.time'}
 Waiting for a packet
-{u'test': 101, u'1527743332': u'os.time', u'1527743331': u'os.time', u'1527743330': u'os.time'}
-Waiting for a packet
-{u'test': 101, u'1527743333': u'os.time', u'1527743332': u'os.time', u'1527743331': u'os.time', u'1527743330': u'os.time'}
-Waiting for a packet
+{u'test': 101, u'1578431140': u'os.time', u'1578431137': u'os.time', u'1578431139': u'os.time', u'1578431141': u'os.time'}
 Bye bye!
-=======
-"hello world again"
->>>>>>> master
+run finished...
 ```
+
+---
 
 ##### Notes
 
 - `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 
-- `kvs.put()` places the value of _udata_ under the key **"usrdata"**. Once the key-value pair is put, the change must be committed with `kvs.commit()`. The value can then be retrieved with `kvs.get()`
+- `kvs.put()` places the value of _udata_ under the key **"conduit"**. Once the key-value pair is put, the change must be committed with `kvs.commit()`. The value can then be retrieved with `kvs.get()`.
 
-- `kvs.get()` on a directory will return a KVSDir object which supports the `with` compound statement. `with` guarantees a commit is called on the directory.
+- `f.rpc()` creates a new RPC object consisting of a specified topic and payload (along with additional flags) that are exchanged with a Flux service.
