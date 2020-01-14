@@ -1,73 +1,72 @@
-### 1. Partitioning Schedule
+### Example 1(a) - Partitioning Schedule
 
-- Launch a flux instance and schedule/launch compute and io-forwarding jobs on separate nodes
+#### Description: Launch a flux instance and schedule/launch compute and io-forwarding jobs on separate nodes
 
-- **salloc -N3 -ppdebug**
+1. `salloc -N3 -ppdebug`
 
-- **setenv FLUX_SCHED_OPTIONS "node-excl=true"** *# Make sure the scheduler module will do node-exclusive scheduling*
+2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+3. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
 
-- **flux submit --nnodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120**
+4. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
 
-- **flux submit --nnodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120**
+5. List running jobs:
 
-- **flux wreck ls**
+`flux job list`
 
-```
-    ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
-     2      1 running    2018-05-11T14:58:39       2.891s        2 io-forwarding
-     1      4 running    2018-05-11T14:58:33       9.284s    [0-1] compute.lua
-```
-
-- **flux kvs get lwj.0.0.1.R_lite**
-
-```json
-[ { "node": "quartz32", "children": { "core": "0-3" }, "rank": 0 },
-  { "node": "quartz33", "children": { "core": "0-3" }, "rank": 1 } ]
+```  
+JOBID		       STATE	  USERID   PRI     T_SUBMIT
+640671547392	   R	      58985	   16	   2019-10-22T16:27:02Z
+1045388328960	   R	      58985	   16	   2019-10-22T16:27:26Z
 ```
 
-- **flux kvs get lwj.0.0.2.R_lite**
+6. Get information about job:
 
-```json
-[ { "node": "quartz34", "children": { "core": "0-1" }, "rank": 2 } ]
-```
-
-### 2. Overlapping Schedule
-
-- Launch a flux instance and schedule/launch both compute and io-forwarding jobs across all nodes
-
-- **salloc -N3 -ppdebug**
-
-- **unsetenv FLUX_SCHED_OPTIONS** *# Make sure the scheduler module will do core-level scheduling*
-
-- **srun --pty --mpi=none -N3 /g/g0/dahn/workspace/planner_correction/inst/bin/flux start -o,-S,log-filename=out**
-
-- **flux submit --nnodes=3 --ntasks=6 --cores-per-task=2 ./compute.lua 120**
-
-- **flux submit --nnodes=3 --ntasks=3 --cores-per-task=1 ./io-forwarding.lua 120**
-
-- **flux wreck ls**
+`flux job info 640671547392 R`
 
 ```
-    ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
-     2      3 running    2018-05-11T15:09:39       2.654s    [0-2] io-forwarding
-     1      6 running    2018-05-11T15:09:23      17.956s    [0-2] compute.lua
+{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
 ```
 
-- **flux kvs get lwj.0.0.1.R_lite**
+`flux job info 1045388328960 R`
 
-```json
-[ { "node": "quartz32", "children": { "core": "0-3" }, "rank": 0 },
-  { "node": "quartz33", "children": { "core": "0-3" }, "rank": 1 },
-  { "node": "quartz34", "children": { "core": "0-3" }, "rank": 2 } ]
+```
+{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0-1"}}]}}
 ```
 
-- **flux kvs get lwj.0.0.2.R_lite**
+### Example 1(b) - Overlapping Schedule
 
-```json
-[ { "node": "quartz32", "children": { "core": "4" }, "rank": 0 },
-  { "node": "quartz33", "children": { "core": "4" }, "rank": 1 },
-  { "node": "quartz34", "children": { "core": "4" }, "rank": 2 } ]
+#### Description: Launch a flux instance and schedule/launch both compute and io-forwarding jobs across all nodes
+
+1. `salloc -N3 -ppdebug`
+
+2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3. `flux mini submit --nodes=3 --ntasks=6 --cores-per-task=2 ./compute.lua 120`
+
+4. `flux mini submit --nodes=3 --ntasks=3 --cores-per-task=1 ./io-forwarding.lua 120`
+
+5. List jobs in KVS:
+
+`flux job list`
+
+```
+JOBID		       STATE	  USERID   PRI     T_SUBMIT
+2098158632960	   R	      58985	   16	   2019-10-22T16:35:25Z
+2331043168256	   R	      58985	   16	   2019-10-22T16:35:39Z
+
 ```
 
+6. Get information about job:
+
+`flux job info 2098158632960 R`
+
+```
+{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"2-5"}},{"rank":"0-1","children":{"core":"4-7"}}]}}
+```
+
+`flux job info 2331043168256 R`
+
+```
+{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"6-7"}},{"rank":"0","children":{"core":"8"}}]}}
+```

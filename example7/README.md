@@ -1,30 +1,68 @@
-### Using Flux job status and control API
+### Example 7 - Using Flux Job Status and Control API
 
-Submit job bundles and wait until all jobs complete
+#### Description: Submit job bundles and wait until all jobs complete
 
-- **salloc -N3 -ppdebug**
+1. Allocate three nodes from a resource manager:
 
-- **unsetenv FLUX_SCHED_OPTIONS**
+`salloc -N3 -p pdebug`
 
-- **srun --pty --mpi=none -N3 /usr/global/tools/flux/toss_3_x86_64_ib/default/bin/flux start -o,-S,log-filename=out**
+2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
 
-- **./bookkeeper.py 5**
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
+3. Run the bookkeeper executable:
+
+`./bookkeeper.py 5`
 
 ```
-bookkeeper: all jobs submited
+bookkeeper: all jobs submitted
 bookkeeper: waiting until all jobs complete
+job 1417322430464 changed its state to DEPEND
+job 1417322430464 changed its state to SCHED
+job 1417758638080 changed its state to DEPEND
+job 1417758638080 changed its state to SCHED
+job 1418161291264 changed its state to DEPEND
+job 1418161291264 changed its state to SCHED
+.
+.
+.
+job 282058555392 changed its state to CLEANUP
+job 285564993536 changed its state to CLEANUP
+.
+.
+.
+job 282058555392 changed its state to INACTIVE
+job 285564993536 changed its state to INACTIVE
+.
+.
+.
 bookkeeper: all jobs completed
-    ID NTASKS STATE                    START      RUNTIME    RANKS COMMAND
-     1      6 exited     2018-05-18T18:48:01       5.724s    [0-2] compute.py
-     2      3 exited     2018-05-18T18:48:01       5.742s    [0-2] io-forwarding
-     3      6 exited     2018-05-18T18:48:01       5.729s    [0-2] compute.py
-     4      3 exited     2018-05-18T18:48:01       5.647s    [0-2] io-forwarding
-     5      6 exited     2018-05-18T18:48:01       5.661s    [0-2] compute.py
-     6      3 exited     2018-05-18T18:48:01       5.611s    [0-2] io-forwarding
-     7      6 exited     2018-05-18T18:48:01       5.667s    [0-2] compute.py
-     8      3 exited     2018-05-18T18:48:01       5.633s    [0-2] io-forwarding
-     9      6 exited     2018-05-18T18:48:01       5.583s    [0-2] compute.py
-    10      3 exited     2018-05-18T18:48:01       5.608s    [0-2] io-forwarding
 ```
 
+---
+
+##### Notes
+
+- `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
+
+
+- The following constructs a job request using the **JobspecV1** class with customizable parameters for how you want to utilize the resources allocated for your job:
+```python
+compute_jobreq = JobspecV1.from_command(
+    command=["./compute.py", "120"], num_tasks=4, num_nodes=2, cores_per_task=2
+)
+compute_jobreq.cwd = os.getcwd()
+compute_jobreq.environment = dict(os.environ)
+```
+
+- `flux.job.submit(f, compute_jobreq)` submits the job to be run, and returns a job ID once it begins running.
+
+- Throughout the course of a job, its state will go through a number of changes. The following subscribes to the event messages matching the transition of those states in the jobs submitted.
+```python
+f.event_subscribe("job-state")
+f.msg_watcher_create(job_state_cb, 0, "job-state").start()
+submit_bundles(f, args.integer)
+print("bookkeeper: waiting until all jobs complete)
+f.reactor_run(f.get_reactor(), 0)
+print("bookkeeper: all jobs completed")
+```

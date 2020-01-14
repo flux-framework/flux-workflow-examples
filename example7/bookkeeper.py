@@ -3,89 +3,69 @@
 import json
 import os
 import flux
-from flux import jsc
 import argparse
 
-def get_environment():
-    env = dict()
-    for key in os.environ:
-        env[key] = os.environ[key]
-    return env
+compute_jobreq = JobspecV1.from_command(
+    command=["./compute.py", "120"], num_tasks=6, num_nodes=3, cores_per_task=2
+)
+compute_jobreq.cwd = os.getcwd()
+compute_jobreq.environment = dict(os.environ)
 
-# Compute job spec
-compute_jobreq = {
-    'nnodes' : 3,
-    'ntasks' : 6,
-    'ncores' : 12,
-    'cmdline' : ["./compute.py", "5"],
-    'environ' : get_environment (),
-    'cwd' : os.getcwd (),
-    'walltime' : 0,
-    'ngpus' : 0,
-    'options': {'nokz': False},
-}
-
-# IO forward job spec
-io_jobreq = {
-    'nnodes' : 3,
-    'ntasks' : 3,
-    'ncores' : 3,
-    'cmdline' : ["./io-forwarding.py", "5"],
-    'environ' : get_environment (),
-    'cwd' : os.getcwd (),
-    'walltime' : 0,
-    'ngpus' : 0,
-    'options': {'nokz': False},
-}
+io_jobreq = JobspecV1.from_command(
+    command=["./io-forwarding.py", "120"], num_tasks=3, num_nodes=3, cores_per_task=1
+)
+io_jobreq.cwd = os.getcwd()
+io_jobreq.environment = dict(os.environ)
 
 njobs = 0
 
-# Get called everytime a job changes its state
-def jsc_cb (jcbstr, arg, errnum):
-    global njobs   
-    (f, N) = arg 
-    jcb = json.loads (jcbstr)
-    jobid = jcb['jobid']
-    state = jsc.job_num2state (jcb[jsc.JSC_STATE_PAIR][jsc.JSC_STATE_PAIR_NSTATE])
-    #print "flux.jsc: job", jobid, "changed its state to ", state
-    if state == "complete": 
-        njobs += 1
-    if njobs == N:
-        f.reactor_stop (f.get_reactor ())
 
-# Submit bundles of jobs using flux submit RPC
-def submit_bundles (f, N):
-    for i in range (0, N):
-         payload = json.dumps (compute_jobreq)
-         resp = f.rpc_send ("job.submit", payload)
-         if resp is None:
-              raise RuntimeError ("flux.rpc: compute_jobreq")
+def job_state_cb(f, typemask, message, arg):
+    global njobs
+    N = args.integer
+    for jobid, state in message.payload["transitions"]:
+        print("job " + str(jobid) + " changed its state to " + str(state))
+        if state == "INACTIVE":
+            njobs += 1
+        if njobs == N * 2:
+            f.reactor_stop(f.get_reactor())
 
-         payload = json.dumps (io_jobreq)
-         resp = f.rpc_send ("job.submit", payload)
-         if resp is None:
-              raise RuntimeError ("flux.rpc: io_jobreq")
-    print "bookkeeper: all jobs submited"
 
-# Main
-def main ():
-    parser = argparse.ArgumentParser (description=
-                 'submit and wait for the completion of '
-                 'N bundles, each consisting of compute '
-                 'and io-forwarding jobs')
-    parser.add_argument ('integer', metavar='N', type=int,
-                         help='the number of bundles to submit and wait')
-    args = parser.parse_args ()
+# submit bundles of jobs using flux.job.submit ()
+def submit_bundles(f, N):
+    f = flux.Flux()
+    for i in range(0, N):
+        print(flux.job.submit(f, compute_jobreq))
+        print(flux.job.submit(f, io_jobreq))
 
-    f = flux.Flux ()
-    jsc.notify_status (f, jsc_cb, (f, args.integer * 2)) 
-    submit_bundles (f, args.integer)
-    print "bookkeeper: waiting until all jobs complete"
-    f.reactor_run (f.get_reactor (), 0)
-    print "bookkeeper: all jobs completed"
-    cmd = "flux wreck ls -n " + str (args.integer * 2)
-    os.system (cmd)
+    print("bookkeeper: all jobs submitted")
 
-main ()
+
+# main
+def main():
+    parser = argparse.ArgumentParser(
+        description="submit and wait for the completion of "
+        "N bundles, each consisting of compute "
+        "and io-forwarding jobs"
+    )
+    parser.add_argument(
+        "integer",
+        metavar="N",
+        type=int,
+        help="the number of bundles to submit and wait",
+    )
+    global args
+    args = parser.parse_args()
+
+    f = flux.Flux()
+    f.event_subscribe("job-state")
+    f.msg_watcher_create(job_state_cb, 0, "job-state").start()
+    submit_bundles(f, args.integer)
+    print("bookkeeper: waiting until all jobs complete")
+    f.reactor_run(f.get_reactor(), 0)
+    print("bookkeeper: all jobs completed")
+
+
+main()
 
 # vi: ts=4 sw=4 expandtab
