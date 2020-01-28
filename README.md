@@ -38,3 +38,7 @@ Use KVS Python interfaces to store user data into KVS
 **_9. [A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/example9)_**
 
 Attach to a job that receives OS time data from compute jobs
+
+**_10. [Python Job Submit/Wait](https://github.com/flux-framework/flux-workflow-examples/tree/master/example10)_**
+
+Submit jobs and wait for them to complete using the Flux Python bindings
