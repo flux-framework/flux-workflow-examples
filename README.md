@@ -7,7 +7,7 @@ separate nodes using the CLI
 
 **_2. [Use a Direct job.submit RPC](https://github.com/flux-framework/flux-workflow-examples/tree/master/example2)_**
 
-Schedule/launch compute and io-forwarding jobs on separate nodes using the Lua and Python bindings
+Schedule/launch compute and io-forwarding jobs on separate nodes using the Python bindings
 
 **_3. [Use Events](https://github.com/flux-framework/flux-workflow-examples/tree/master/example3)_**
 
