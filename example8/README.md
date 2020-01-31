@@ -1,4 +1,4 @@
-### Example 9 - KVS Python Binding Example
+### Example 8 - KVS Python Binding Example
 
 #### Description: Use the KVS Python interface to store user data into KVS
 
@@ -8,7 +8,7 @@
 
 2. Submit the Python script:
 
-`flux submit -N 1 -n 1 ./kvsput-usrdata.py`
+`flux mini submit -N 1 -n 1 ./kvsput-usrdata.py`
 
 ```
 6705031151616
