@@ -10,32 +10,25 @@
 
 `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-3. Run the bookkeeper executable:
+3. Run the bookkeeper executable along with the number of jobs to be submitted (if no size is specified, 6 jobs are submitted: 3 instances of **compute.py**, and 3 instances of **io-forwarding,py**):
 
-`./bookkeeper.py 5`
+`./bookkeeper.py 2`
 
 ```
+17341081452544
+17341383442432
 bookkeeper: all jobs submitted
 bookkeeper: waiting until all jobs complete
-job 1417322430464 changed its state to DEPEND
-job 1417322430464 changed its state to SCHED
-job 1417758638080 changed its state to DEPEND
-job 1417758638080 changed its state to SCHED
-job 1418161291264 changed its state to DEPEND
-job 1418161291264 changed its state to SCHED
-.
-.
-.
-job 282058555392 changed its state to CLEANUP
-job 285564993536 changed its state to CLEANUP
-.
-.
-.
-job 282058555392 changed its state to INACTIVE
-job 285564993536 changed its state to INACTIVE
-.
-.
-.
+job 17341081452544 changed its state to DEPEND
+job 17341081452544 changed its state to SCHED
+job 17341081452544 changed its state to RUN
+job 17341383442432 changed its state to DEPEND
+job 17341383442432 changed its state to SCHED
+job 17341081452544 changed its state to CLEANUP
+job 17341081452544 changed its state to INACTIVE
+job 17341383442432 changed its state to RUN
+job 17341383442432 changed its state to CLEANUP
+job 17341383442432 changed its state to INACTIVE
 bookkeeper: all jobs completed
 ```
 
@@ -49,7 +42,7 @@ bookkeeper: all jobs completed
 - The following constructs a job request using the **JobspecV1** class with customizable parameters for how you want to utilize the resources allocated for your job:
 ```python
 compute_jobreq = JobspecV1.from_command(
-    command=["./compute.py", "120"], num_tasks=4, num_nodes=2, cores_per_task=2
+    command=["./compute.py", "10"], num_tasks=4, num_nodes=2, cores_per_task=2
 )
 compute_jobreq.cwd = os.getcwd()
 compute_jobreq.environment = dict(os.environ)
@@ -59,10 +52,10 @@ compute_jobreq.environment = dict(os.environ)
 
 - Throughout the course of a job, its state will go through a number of changes. The following subscribes to the event messages matching the transition of those states in the jobs submitted.
 ```python
-f.event_subscribe("job-state")
-f.msg_watcher_create(job_state_cb, 0, "job-state").start()
-submit_bundles(f, args.integer)
-print("bookkeeper: waiting until all jobs complete)
-f.reactor_run(f.get_reactor(), 0)
-print("bookkeeper: all jobs completed")
+    f.event_subscribe("job-state")
+    f.msg_watcher_create(job_state_cb, 0, "job-state").start()
+    submit_bundles(f, njobs)
+    print("bookkeeper: waiting until all jobs complete")
+    f.reactor_run(f.get_reactor(), 0)
+    print("bookkeeper: all jobs completed")
 ```
