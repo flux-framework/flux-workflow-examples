@@ -1,4 +1,4 @@
-### Example 4 - Job Ensemble Submitted with a New Flux Instance
+### Job Ensemble Submitted with a New Flux Instance
 
 #### Description: Launch a flux instance and submit one instance of an io-forwarding job and 50 compute jobs, each spanning the entire set of nodes.
 

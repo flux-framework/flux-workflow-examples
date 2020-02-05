@@ -1,4 +1,4 @@
-### Example 5 - Using a Flux Comms Module
+### Using a Flux Comms Module
 
 #### Description: Use a Flux comms module to communicate with job elements
 

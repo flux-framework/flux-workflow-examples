@@ -1,4 +1,4 @@
-### Example 7 - Using Flux Job Status and Control API
+### Using Flux Job Status and Control API
 
 #### Description: Submit job bundles and wait until all jobs complete
 

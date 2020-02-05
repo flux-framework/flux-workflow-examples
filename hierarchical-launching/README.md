@@ -1,4 +1,4 @@
-### Example 6 - Hierarchical Launching
+### Hierarchical Launching
 
 #### Description: Launch an ensemble of sleep 0 tasks
 

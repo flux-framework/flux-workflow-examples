@@ -1,44 +1,43 @@
 **Flux Workflow Examples**
 
-**_1. [Partitioning Schedule](https://github.com/flux-framework/flux-workflow-examples/tree/master/example1)_**
+**_1. [Job Submit CLI](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-submit-cli)_**
 
 Launch a flux instance and schedule/launch compute and io-forwarding jobs on
 separate nodes using the CLI
 
-**_2. [Use a Direct job.submit RPC](https://github.com/flux-framework/flux-workflow-examples/tree/master/example2)_**
+**_2. [Job Submit API](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-submit-api)_**
 
 Schedule/launch compute and io-forwarding jobs on separate nodes using the Python bindings
 
-**_3. [Use Events](https://github.com/flux-framework/flux-workflow-examples/tree/master/example3)_**
+**_3. [Python Job Submit/Wait](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-submit-wait)_**
+
+Submit jobs and wait for them to complete using the Flux Python bindings
+
+**_4. [Using Flux Job Status and Control API](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-status-control)_**
+
+Submit job bundles and wait until all jobs complete
+
+**_5. [Use Events](https://github.com/flux-framework/flux-workflow-examples/tree/master/synchronize-events)_**
 
 Use events to synchronize compute and io-forwarding jobs running on separate
 nodes
 
-**_4. [Job Ensemble Submitted with a New Flux Instance](https://github.com/flux-framework/flux-workflow-examples/tree/master/example4)_**
-
-Launch a Flux instance and submit one instance of an io-forwarding job and a
-large number of compute jobs, each spanning the entire set of the node
-
-**_5. [Use a Flux Comms Module](https://github.com/flux-framework/flux-workflow-examples/tree/master/example5)_**
-
-Use a Flux Comms Module to communicate with job elements
-
-**_6. [Hierarchical Launching](https://github.com/flux-framework/flux-workflow-examples/tree/master/example6)_**
-
-Launch a large number of sleep 0 jobs
-
-**_7. [Using Flux Job Status and Control API](https://github.com/flux-framework/flux-workflow-examples/tree/master/example7)_**
-
-Submit job bundles and wait until all jobs complete
-
-**_8. [Simple KVS Python Binding Example](https://github.com/flux-framework/flux-workflow-examples/tree/master/example8)_**
+**_6. [Simple KVS Python Binding Example](https://github.com/flux-framework/flux-workflow-examples/tree/master/kvs-python-bindings)_**
 
 Use KVS Python interfaces to store user data into KVS
 
-**_9. [A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/example9)_**
+**_7. [Job Ensemble Submitted with a New Flux Instance](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-ensemble)_**
+
+Submit job bundles, print live job events, and exit when all jobs are complete
+
+**_8. [Hierarchical Launching](https://github.com/flux-framework/flux-workflow-examples/tree/master/hierarchical-launching)_**
+
+Launch a large number of sleep 0 jobs
+
+**_9. [Use a Flux Comms Module](https://github.com/flux-framework/flux-workflow-examples/tree/master/comms-module)_**
+
+Use a Flux Comms Module to communicate with job elements
+
+**_10. [A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/data-conduit)_**
 
 Attach to a job that receives OS time data from compute jobs
-
-**_10. [Python Job Submit/Wait](https://github.com/flux-framework/flux-workflow-examples/tree/master/example10)_**
-
-Submit jobs and wait for them to complete using the Flux Python bindings

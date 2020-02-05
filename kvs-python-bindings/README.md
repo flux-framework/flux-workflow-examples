@@ -1,4 +1,4 @@
-### Example 8 - KVS Python Binding Example
+### KVS Python Binding Example
 
 #### Description: Use the KVS Python interface to store user data into KVS
 
