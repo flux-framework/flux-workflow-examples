@@ -13,31 +13,35 @@ Schedule/launch compute and io-forwarding jobs on separate nodes using the Pytho
 
 Submit jobs and wait for them to complete using the Flux Python bindings
 
-**_4. [Using Flux Job Status and Control API](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-status-control)_**
+**_4. [Python Asynchronous Bulk Job Submission](https://github.com/flux-framework/flux-workflow-examples/tree/master/async-bulk-job-submit)_**
+
+Asynchronously submit jobspec files from a directory and wait for them to complete in any order
+
+**_5. [Using Flux Job Status and Control API](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-status-control)_**
 
 Submit job bundles and wait until all jobs complete
 
-**_5. [Use Events](https://github.com/flux-framework/flux-workflow-examples/tree/master/synchronize-events)_**
+**_6. [Use Events](https://github.com/flux-framework/flux-workflow-examples/tree/master/synchronize-events)_**
 
 Use events to synchronize compute and io-forwarding jobs running on separate
 nodes
 
-**_6. [Simple KVS Python Binding Example](https://github.com/flux-framework/flux-workflow-examples/tree/master/kvs-python-bindings)_**
+**_7. [Simple KVS Python Binding Example](https://github.com/flux-framework/flux-workflow-examples/tree/master/kvs-python-bindings)_**
 
 Use KVS Python interfaces to store user data into KVS
 
-**_7. [Job Ensemble Submitted with a New Flux Instance](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-ensemble)_**
+**_8. [Job Ensemble Submitted with a New Flux Instance](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-ensemble)_**
 
 Submit job bundles, print live job events, and exit when all jobs are complete
 
-**_8. [Hierarchical Launching](https://github.com/flux-framework/flux-workflow-examples/tree/master/hierarchical-launching)_**
+**_9. [Hierarchical Launching](https://github.com/flux-framework/flux-workflow-examples/tree/master/hierarchical-launching)_**
 
 Launch a large number of sleep 0 jobs
 
-**_9. [Use a Flux Comms Module](https://github.com/flux-framework/flux-workflow-examples/tree/master/comms-module)_**
+**_10. [Use a Flux Comms Module](https://github.com/flux-framework/flux-workflow-examples/tree/master/comms-module)_**
 
 Use a Flux Comms Module to communicate with job elements
 
-**_10. [A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/data-conduit)_**
+**_11. [A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/data-conduit)_**
 
 Attach to a job that receives OS time data from compute jobs
