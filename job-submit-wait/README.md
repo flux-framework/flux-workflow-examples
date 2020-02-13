@@ -1,4 +1,4 @@
-### Example 10(a) - Python Job Submit/Wait
+### Part(a) - Python Job Submit/Wait
 
 #### Description: Submit jobs asynchronously and wait for them to complete in any order
 
@@ -39,7 +39,7 @@ wait: 11126968418304 Error: task(s) exited with exit code 1
 
 ---
 
-### Example 10(b) - Python Job Submit/Wait (Sliding Window)
+### Part(b) - Python Job Submit/Wait (Sliding Window)
 
 #### Description: Asynchronously submit jobs and keep at most a number of those jobs active
 
@@ -80,7 +80,7 @@ wait: 6164435697664 Success
 
 ---
 
-### Example 10(c) - Python Job Submit/Wait (Specific Job ID)
+### Part(c) - Python Job Submit/Wait (Specific Job ID)
 
 #### Description: Asynchronously submit jobs, block/wait for specific jobs to complete
 

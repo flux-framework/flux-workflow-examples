@@ -1,4 +1,4 @@
-### Example 3 - Using Events with Separate Nodes
+### Using Events with Separate Nodes
 
 #### Description: Using events to synchronize compute and io-forwarding jobs running on separate nodes
 

@@ -1,4 +1,4 @@
-### Example 1(a) - Partitioning Schedule
+### Part(a) - Partitioning Schedule
 
 #### Description: Launch a flux instance and schedule/launch compute and io-forwarding jobs on separate nodes
 
@@ -34,7 +34,7 @@ JOBID		       STATE	  USERID   PRI     T_SUBMIT
 {"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0-1"}}]}}
 ```
 
-### Example 1(b) - Overlapping Schedule
+### Part(b) - Overlapping Schedule
 
 #### Description: Launch a flux instance and schedule/launch both compute and io-forwarding jobs across all nodes
 

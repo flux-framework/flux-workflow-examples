@@ -1,4 +1,4 @@
-### Example 2(a) - Using a direct job.submit RPC
+### Part(a) - Using a direct job.submit RPC
 
 #### Description: Schedule and launch compute and io-forwarding jobs on separate nodes
 
@@ -38,7 +38,7 @@ JOBID		STATE	USERID	PRI	NAME		T_SUBMIT
 {"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0"}}]}}
 ```
 
-### Example 2(b) - Using a direct job.submit RPC
+### Part(b) - Using a direct job.submit RPC
 
 #### Description: Schedule and launch both compute and io-forwarding jobs across all nodes
 
