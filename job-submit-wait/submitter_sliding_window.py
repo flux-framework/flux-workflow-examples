@@ -24,14 +24,13 @@ compute_jobspec = JobspecV1.from_command(
 compute_jobspec.cwd = os.getcwd()
 compute_jobspec.environment = dict(os.environ)
 
-flags = flux.constants.FLUX_JOB_WAITABLE
 done = 0
 running = 0
 
 # submit jobs, keep [window_size] jobs running
 while done < njobs:
     if running < window_size and done + running < njobs:
-        jobid = flux.job.submit(h, compute_jobspec, flags=flags)
+        jobid = flux.job.submit(h, compute_jobspec, waitable=True)
         print("submit: {}".format(jobid))
         running += 1
 

@@ -26,15 +26,14 @@ compute_jobspec.environment = dict(os.environ)
 bad_jobspec = JobspecV1.from_command(["/bin/false"])
 
 jobs = []
-flags = flux.constants.FLUX_JOB_WAITABLE
 
 # submit jobs
 for i in range(njobs):
     if i < njobs / 2:
-        jobid = flux.job.submit(h, compute_jobspec, flags=flags)
+        jobid = flux.job.submit(h, compute_jobspec, waitable=True)
         print("submit: {} compute.py".format(jobid))
     else:
-        jobid = job.submit(h, bad_jobspec, flags=flags)
+        jobid = job.submit(h, bad_jobspec, waitable=True)
         print("submit: {} bad_jobspec".format(jobid))
     jobs.append(jobid)
 

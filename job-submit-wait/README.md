@@ -134,6 +134,6 @@ compute_jobspec.cwd = os.getcwd()
 compute_jobspec.environment = dict(os.environ)
 ```
 
-- `flux.job.submit(h, compute_jobspec, flags=flags)` submits the job to be run, and returns a job ID once it begins running.
+- `flux.job.submit(h, compute_jobspec, waitable=True)` submits the job to be run, and returns a job ID once it begins running.
 
 - `result = job.wait(h, jobid)` waits for a job to transition to the **INACTIVE** state, then returns a summary of the job result, either a **Success** or an **Error** string.
