@@ -9,9 +9,8 @@ for i in `seq 1 ${NJOBS}`; do
     JOBIDS="${JOBIDS} $(flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 1)"
 done
 
-flux job list
-flux job drain
-flux job undrain
+flux jobs
+flux queue drain
 
 # print mock-up prevenance data
 for i in ${JOBIDS}; do
