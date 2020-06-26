@@ -18,9 +18,8 @@ for i in `seq 1 ${NJOBS}`; do
     JOBIDS="${JOBIDS} $(flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 1)"
 done
 
-flux job list
-flux job drain
-flux job undrain
+flux jobs
+flux queue drain
 
 # print mock-up prevenance data
 for i in ${JOBIDS}; do
@@ -34,52 +33,39 @@ done
 3. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out ./ensemble.sh`
 
 ```
-JOBID		STATE	USERID	PRI	T_SUBMIT
-36507222016	S	58985	16	2019-11-18T23:07:05Z
-34644951040	R	58985	16	2019-11-18T23:07:05Z
-32782680064	R	58985	16	2019-11-18T23:07:04Z
-30903631872	R	58985	16	2019-11-18T23:07:04Z
-29007806464	R	58985	16	2019-11-18T23:07:04Z
-27078426624	R	58985	16	2019-11-18T23:07:04Z
-25165824000	R	58985	16	2019-11-18T23:07:04Z
-23219666944	R	58985	16	2019-11-18T23:07:04Z
-21239955456	R	58985	16	2019-11-18T23:07:04Z
-19243466752	R	58985	16	2019-11-18T23:07:04Z
-17196646400	R	58985	16	2019-11-18T23:07:04Z
+JOBID         USER      NAME       STATE    NTASKS NNODES  RUNTIME RANKS
+1721426247680 fluxuser  compute.lu RUN           4      2   0.122s [1-2]
+1718322462720 fluxuser  compute.lu RUN           4      2   0.293s [0,2]
+1715201900544 fluxuser  compute.lu RUN           4      2   0.481s [0-1]
+1712299442176 fluxuser  compute.lu RUN           4      2   0.626s [1-2]
+1709296320512 fluxuser  compute.lu RUN           4      2   0.885s [0,2]
+1706293198848 fluxuser  compute.lu RUN           4      2   1.064s [0-1]
+1691378253824 fluxuser  io-forward RUN           1      1   1.951s 0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Jobid: 17196646400
+Jobid: 1691378253824
 {
   "version": 1,
   "execution": {
     "R_lite": [
       {
         "rank": "0",
-        "node": "quartz20",
         "children": {
-          "core": "34-35"
+          "core": "0-1"
         }
       }
     ]
   }
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Jobid: 19243466752
+Jobid: 1694414929920
 {
   "version": 1,
   "execution": {
     "R_lite": [
       {
-        "rank": "0",
-        "node": "quartz20",
+        "rank": "1-2",
         "children": {
-          "core": "30-33"
-        }
-      },
-      {
-        "rank": "1",
-        "node": "quartz21",
-        "children": {
-          "core": "32-35"
+          "core": "0-3"
         }
       }
     ]
@@ -89,23 +75,15 @@ Jobid: 19243466752
 .
 .
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Jobid: 36507222016
+Jobid: 1721426247680
 {
   "version": 1,
   "execution": {
     "R_lite": [
       {
-        "rank": "0",
-        "node": "quartz20",
+        "rank": "1-2",
         "children": {
-          "core": "30-33"
-        }
-      },
-      {
-        "rank": "1",
-        "node": "quartz21",
-        "children": {
-          "core": "32-35"
+          "core": "8-11"
         }
       }
     ]
