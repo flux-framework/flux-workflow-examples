@@ -23,13 +23,13 @@ if not rc then
     os.exit (1)
 end
 
--- the master rank of compute job installs app module
+-- the leader rank of compute job installs app module
 if rank == 0 then
     os.execute ("flux module load -r " .. 0 .. " capp")
     os.execute ("flux module list")
 end
 
--- wait for an event sent from the master of io-forwarding job to sync
+-- wait for an event sent from the leader of io-forwarding job to sync
 -- between io job's installing the app module and sending a request later
 print ("Block until we hear go message from the an io forwarder")
 local rc, err = f:recv_event ()

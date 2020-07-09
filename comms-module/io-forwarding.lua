@@ -32,9 +32,9 @@ if rank == 0 then
     print ("Sent a go event")
 end
 
--- Wait for an event sent from the master of compute job to sync
+-- Wait for an event sent from the leader of compute job to sync
 -- between compute job's installing the app module and sending a request later
-print ("Block until we hear go message from the a master compute process")
+print ("Block until we hear go message from the a leader compute process")
 local rc, err = f:recv_event ()
 if not rc then
     print ("Failed to receive an, %s", err)
