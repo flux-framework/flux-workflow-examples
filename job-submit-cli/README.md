@@ -12,26 +12,26 @@
 
 5. List running jobs:
 
-`flux job list`
+`flux jobs`
 
 ```  
-JOBID		       STATE	  USERID   PRI     T_SUBMIT
-640671547392	   R	      58985	   16	   2019-10-22T16:27:02Z
-1045388328960	   R	      58985	   16	   2019-10-22T16:27:26Z
+JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
+ƒ3ETxsR9H moussa1  io-forward  R      1      1   2.858s 2
+ƒ38rBqEWT moussa1  compute.lu  R      4      2    15.6s [0-1]
 ```
 
 6. Get information about job:
 
-`flux job info 640671547392 R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
-```
-
-`flux job info 1045388328960 R`
+`flux job info ƒ3ETxsR9H R`
 
 ```
 {"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0-1"}}]}}
+```
+
+`flux job info ƒ38rBqEWT R`
+
+```
+{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
 ```
 
 ### Part(b) - Overlapping Schedule
@@ -48,25 +48,25 @@ JOBID		       STATE	  USERID   PRI     T_SUBMIT
 
 5. List jobs in KVS:
 
-`flux job list`
+`flux jobs`
 
 ```
-JOBID		       STATE	  USERID   PRI     T_SUBMIT
-2098158632960	   R	      58985	   16	   2019-10-22T16:35:25Z
-2331043168256	   R	      58985	   16	   2019-10-22T16:35:39Z
+JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
+ƒ3ghmgCpw moussa1  io-forward  R      3      3   16.91s [0-2]
+ƒ3dSybfQ3 moussa1  compute.lu  R      6      3    24.3s [0-2]
 
 ```
 
 6. Get information about job:
 
-`flux job info 2098158632960 R`
+`flux job info ƒ3ghmgCpw R`
 
 ```
-{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"2-5"}},{"rank":"0-1","children":{"core":"4-7"}}]}}
+{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"4"}}]}}
 ```
 
-`flux job info 2331043168256 R`
+`flux job info ƒ3dSybfQ3 R`
 
 ```
-{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"6-7"}},{"rank":"0","children":{"core":"8"}}]}}
+{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}
 ```
