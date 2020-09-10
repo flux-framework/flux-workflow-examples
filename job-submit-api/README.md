@@ -16,26 +16,26 @@
 
 4. List currently running jobs:
 
-`flux job list`
+`flux jobs`
 
 ```
-JOBID		STATE	USERID	PRI	NAME		T_SUBMIT
-316703506432	R	58985	16	./io-forwarding	2019-12-16T21:54:19Z
-316250521600	R	58985	16	./compute.py   	2019-12-16T21:54:19Z
+JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
+ƒ5W8gVwm moussa1  io-forward  R      1      1   19.15s 2
+ƒ5Vd2kJs moussa1  compute.py  R      4      2   19.18s [0-1]
 ```
 
 5. Information about jobs, such as the submitted job specification, an eventlog, and the resource description format **R** are stored in the KVS. The data can be queried via the `job-info` module via the `flux job info` command. For example, to fetch **R** for a job which has been allocated resources:
 
-`flux job info 316703506432 R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
-```
-
-`flux job info 316250521600 R`
+`flux job info ƒ5W8gVwm R`
 
 ```
 {"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0"}}]}}
+```
+
+`flux job info ƒ5Vd2kJs R`
+
+```
+{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
 ```
 
 ### Part(b) - Using a direct job.submit RPC
@@ -56,23 +56,23 @@ JOBID		STATE	USERID	PRI	NAME		T_SUBMIT
 
 4. List currently running jobs:
 
-`flux job list`
+`flux jobs`
 
 ```
-JOBID		STATE	USERID	PRI	NAME		T_SUBMIT
-266187309056	R	58985	16	./io-forwarding	2019-12-16T22:01:59Z
-265767878656	R	58985	16	./compute.py   	2019-12-16T22:01:59Z
+JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
+ƒctYadhh moussa1  io-forward  R      3      3   3.058s [0-2]
+ƒct1StnT moussa1  compute.py  R      6      3   3.086s [0-2]
 ```
 
 5. Fetch **R** for the jobs that have been allocated resources:
 
-`flux job info 266187309056 R`
+`flux job info ƒctYadhh R`
 
 ```
-{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"4"}}]}}
+{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}
 ```
 
-`flux job info 265767878656 R`
+`flux job info ƒct1StnT R`
 
 ```
 {"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}

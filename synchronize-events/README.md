@@ -8,25 +8,25 @@
 
 3. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
 
-**Output -** `901355929600`
+**Output -** `225284456448`
 
-4. `flux submit --nnodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
+4. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
 
-**Output -** `1244299001856`
+**Output -** `344889229312`
 
 5. List running jobs:
 
-`flux job list`
+`flux jobs`
 
 ```
-JOBID		       STATE	  USERID   PRI     T_SUBMIT
-901355929600	   R	      58985	   16	   2019-10-22T16:27:02Z
-1244299001856	   R	      58985	   16	   2019-10-22T16:27:26Z
+JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
+ƒA4TgT7d moussa1  io-forward  R      1      1   4.376s 2
+ƒ6vEcj7M moussa1  compute.lu  R      4      2   11.51s [0-1]
 ```
 
 6. Attach to running or completed job output:
 
-`flux job attach 901355929600`
+`flux job attach ƒ6vEcj7M`
 
 ```
 Block until we hear go message from the an io forwarder
