@@ -8,7 +8,6 @@ from flux import job
 from flux import constants
 
 t0 = time.time()
-flags = flux.constants.FLUX_JOB_WAITABLE
 jobs = []
 label = "bulksubmit"
 
@@ -37,9 +36,9 @@ def submit_cb(f, arg):
 log("Starting...")
 for file in sys.argv[1:]:
     with open(file) as jobspec:
-        job.submit_async(h, jobspec.read(), flags=flags).then(submit_cb)
+        job.submit_async(h, jobspec.read(), waitable=True).then(submit_cb)
 
-if h.reactor_run(h.get_reactor(), 0) < 0:
+if h.reactor_run() < 0:
     h.fatal_error("reactor start failed")
 
 total = len(jobs)

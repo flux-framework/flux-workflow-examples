@@ -38,12 +38,12 @@ bulksubmit: Ran 1025 jobs in 34.9s. 29.4 job/s
 
 - `h = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 
-- `job_submit_async(h, jobspec.read(), flags=flags).then(submit_cb)` submits a jobspec, returning a future which will be fulfilled when the submission of this job is complete.
+- `job_submit_async(h, jobspec.read(), waitable=True).then(submit_cb)` submits a jobspec, returning a future which will be fulfilled when the submission of this job is complete.
 
 `.then(submit_cb)`, called on the returned future, will cause our callback `submit_cb()` to be invoked when the submission of this job is complete and a jobid is available. To process job submission RPC responses and invoke callabacks, the flux reactor for handle `h` must be run:
 
 ```python
-if h.reactor_run(h.get_reactor(), 0) < 0:
+if h.reactor_run() < 0:
 ￼    h.fatal_error("reactor start failed")
 ```
 
