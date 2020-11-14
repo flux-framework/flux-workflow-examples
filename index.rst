@@ -29,6 +29,11 @@ to complete in any order
 
 Submit job bundles and wait until all jobs complete
 
+:doc:`Job Cancellation <job-cancel/README>`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cancel a running job
+
 :doc:`Use Events <synchronize-events/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -69,6 +74,7 @@ Attach to a job that receives OS time data from compute jobs
    job-submit-wait/README
    async-bulk-job-submit/README
    job-status-control/README
+   job-cancel/README
    synchronize-events/README
    kvs-python-bindings/README
    job-ensemble/README
