@@ -1,6 +1,6 @@
-### Hierarchical Launching
+## Hierarchical Launching
 
-#### Description: Launch an ensemble of sleep 0 tasks
+### Description: Launch an ensemble of sleep 0 tasks
 
 1. `salloc -N3 -ppdebug`
 
@@ -17,7 +17,8 @@ First Level Done
 Mon Nov 18 15:34:13 PST 2019
 ```
 
-#### Notes
+
+### Notes
 
 - You can increase the number of jobs by increasing `NCORES` in `parent.sh` and
 `NJOBS` in `ensemble.sh`.

@@ -1,6 +1,6 @@
-### Job Cancellation
+## Job Cancellation
 
-#### Description: Cancel a running job
+### Description: Cancel a running job
 
 1. Launch the submitter script:
 
@@ -21,7 +21,7 @@ First submitted job status (2241905819648) - CANCELLED
 Second submitted job status (2258951471104) - RUNNING
 ```
 
-##### Notes
+### Notes
 
 - `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 

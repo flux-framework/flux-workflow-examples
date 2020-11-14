@@ -1,6 +1,6 @@
-### Python Asynchronous Bulk Job Submission
+## Python Asynchronous Bulk Job Submission
 
-#### Description: Asynchronously submit jobspec files from a directory and wait for them to complete in any order
+### Description: Asynchronously submit jobspec files from a directory and wait for them to complete in any order
 
 1. Allocate three nodes from a resource manager:
 
@@ -34,7 +34,7 @@ bulksubmit: First job finished in about 3.089s
 bulksubmit: Ran 1025 jobs in 34.9s. 29.4 job/s
 ```
 
-##### Notes
+### Notes
 
 - `h = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 
