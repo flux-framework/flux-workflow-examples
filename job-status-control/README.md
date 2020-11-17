@@ -1,6 +1,6 @@
-### Using Flux Job Status and Control API
+## Using Flux Job Status and Control API
 
-#### Description: Submit job bundles and wait until all jobs complete
+### Description: Submit job bundles and wait until all jobs complete
 
 1. Allocate three nodes from a resource manager:
 
@@ -34,7 +34,7 @@ bookkeeper: all jobs completed
 
 ---
 
-##### Notes
+### Notes
 
 - `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 

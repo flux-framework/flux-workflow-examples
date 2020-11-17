@@ -1,3 +1,5 @@
+## Python Job Submit/Wait
+
 ### Part(a) - Python Job Submit/Wait
 
 #### Description: Submit jobs asynchronously and wait for them to complete in any order
@@ -121,7 +123,7 @@ wait: 142203682816 Success
 
 ---
 
-##### Notes
+### Notes
 
 - `h = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 

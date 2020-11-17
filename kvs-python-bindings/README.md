@@ -1,6 +1,6 @@
-### KVS Python Binding Example
+## KVS Python Binding Example
 
-#### Description: Use the KVS Python interface to store user data into KVS
+### Description: Use the KVS Python interface to store user data into KVS
 
 1. Launch a Flux instance by running `flux start`, redirecting log messages to the file `out` in the current directory:
 
@@ -47,7 +47,7 @@ job.0000.0619.2300.0000
 "hello world again"
 ```
 
-##### Notes
+### Notes
 
 - `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 

@@ -1,6 +1,6 @@
-### A Data Conduit Strategy
+## A Data Conduit Strategy
 
-#### Description: Use a data stream to send packets through
+### Description: Use a data stream to send packets through
 
 1. Allocate three nodes from a resource manager:
 
@@ -64,7 +64,7 @@ run finished...
 
 ---
 
-##### Notes
+### Notes
 
 - `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 

@@ -1,3 +1,5 @@
+## Job Submit API
+
 ### Part(a) - Using a direct job.submit RPC
 
 #### Description: Schedule and launch compute and io-forwarding jobs on separate nodes
@@ -80,7 +82,7 @@ JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 
 ---
 
-##### Notes
+### Notes
 
 - `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 
