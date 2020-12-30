@@ -15,9 +15,9 @@ Submitted 2nd job: 2258951471104
 First submitted job status (2241905819648) - RUNNING
 Second submitted job status (2258951471104) - PENDING
 
-Cancelled first job: 2241905819648
+Canceled first job: 2241905819648
 
-First submitted job status (2241905819648) - CANCELLED
+First submitted job status (2241905819648) - CANCELED
 Second submitted job status (2258951471104) - RUNNING
 ```
 
@@ -29,4 +29,4 @@ Second submitted job status (2258951471104) - RUNNING
 
 - `flux.job.cancel(f, jobid)` cancels the job.
 
-- `flux.job.wait_async(f, jobid)` will wait for the job to complete (or in this case, be cancelled). It returns a Flux future, which can be used to process the result later. Only jobs submitted with `waitable=True` can be waited for.
+- `flux.job.wait_async(f, jobid)` will wait for the job to complete (or in this case, be canceled). It returns a Flux future, which can be used to process the result later. Only jobs submitted with `waitable=True` can be waited for.

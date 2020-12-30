@@ -42,10 +42,10 @@ print("Second submitted job status (%d) - %s\n" % (int(jobs[0].id.dec), jobs[0].
 flux.job.cancel(f, first_jobid)
 future = flux.job.wait_async(f, first_jobid).wait_for(5.0)
 return_id, success, errmsg = future.get_status()
-print("Cancelled first job: %d\n" % (int(return_id)))
+print("Canceled first job: %d\n" % (int(return_id)))
 time.sleep(1)
 
-# the second job should now run since the first was cancelled
+# the second job should now run since the first was canceled
 jobs = flux.job.JobList(f, max_entries=2).jobs()
 print("First submitted job status (%d) - %s" % (int(jobs[1].id.dec), jobs[1].status))
 print("Second submitted job status (%d) - %s" % (int(jobs[0].id.dec), jobs[0].status))
