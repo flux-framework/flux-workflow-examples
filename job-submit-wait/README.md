@@ -17,26 +17,26 @@
 `./submitter_wait_any.py 10`
 
 ```
-submit: 11123713638400 compute_jobspec
-submit: 11124099514368 compute_jobspec
-submit: 11124518944768 compute_jobspec
-submit: 11124921597952 compute_jobspec
-submit: 11125257142272 compute_jobspec
-submit: 11125626241024 bad_jobspec
-submit: 11126028894208 bad_jobspec
-submit: 11126347661312 bad_jobspec
-submit: 11126649651200 bad_jobspec
-submit: 11126968418304 bad_jobspec
-wait: 11123713638400 Success
-wait: 11124099514368 Success
-wait: 11124518944768 Success
-wait: 11124921597952 Success
-wait: 11125257142272 Success
-wait: 11125626241024 Error: task(s) exited with exit code 1
-wait: 11126028894208 Error: task(s) exited with exit code 1
-wait: 11126347661312 Error: task(s) exited with exit code 1
-wait: 11126649651200 Error: task(s) exited with exit code 1
-wait: 11126968418304 Error: task(s) exited with exit code 1
+submit: 46912591450240 compute_jobspec
+submit: 46912591450912 compute_jobspec
+submit: 46912591451080 compute_jobspec
+submit: 46912591363152 compute_jobspec
+submit: 46912591362984 compute_jobspec
+submit: 46912591451360 bad_jobspec
+submit: 46912591451528 bad_jobspec
+submit: 46912591451696 bad_jobspec
+submit: 46912591451864 bad_jobspec
+submit: 46912591452032 bad_jobspec
+wait: 46912591451528 Error: job returned exit code 1
+wait: 46912591451864 Error: job returned exit code 1
+wait: 46912591451360 Error: job returned exit code 1
+wait: 46912591451696 Error: job returned exit code 1
+wait: 46912591452032 Error: job returned exit code 1
+wait: 46912591450240 Success
+wait: 46912591363152 Success
+wait: 46912591450912 Success
+wait: 46912591451080 Success
+wait: 46912591362984 Success
 ```
 
 ---
@@ -99,33 +99,31 @@ wait: 6164435697664 Success
 `./submitter_wait_in_order.py 10`
 
 ```
-submit: 141868138496 compute_jobspec
-submit: 142203682816 compute_jobspec
-submit: 142639890432 compute_jobspec
-submit: 143025766400 compute_jobspec
-submit: 143344533504 compute_jobspec
-submit: 143730409472 bad_jobspec
-submit: 144233725952 bad_jobspec
-submit: 144518938624 bad_jobspec
-submit: 144871260160 bad_jobspec
-submit: 145156472832 bad_jobspec
-wait: 143730409472 Error: task(s) exited with exit code 1
-wait: 144518938624 Error: task(s) exited with exit code 1
-wait: 145156472832 Error: task(s) exited with exit code 1
-wait: 144871260160 Error: task(s) exited with exit code 1
-wait: 144233725952 Error: task(s) exited with exit code 1
-wait: 141868138496 Success
-wait: 143025766400 Success
-wait: 142639890432 Success
-wait: 143344533504 Success
-wait: 142203682816 Success
+submit: 46912593818008 compute_jobspec
+submit: 46912593818176 compute_jobspec
+submit: 46912593818344 compute_jobspec
+submit: 46912593818512 compute_jobspec
+submit: 46912593738048 compute_jobspec
+submit: 46912519873816 bad_jobspec
+submit: 46912593818792 bad_jobspec
+submit: 46912593818960 bad_jobspec
+submit: 46912593819128 bad_jobspec
+submit: 46912593819296 bad_jobspec
+wait: 46912593818008 Success
+wait: 46912593818176 Success
+wait: 46912593818344 Success
+wait: 46912593818512 Success
+wait: 46912593738048 Success
+wait: 46912519873816 Error: job returned exit code 1
+wait: 46912593818792 Error: job returned exit code 1
+wait: 46912593818960 Error: job returned exit code 1
+wait: 46912593819128 Error: job returned exit code 1
+wait: 46912593819296 Error: job returned exit code 1
 ```
 
 ---
 
 ### Notes
-
-- `h = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 
 - The following constructs a job request using the **JobspecV1** class with customizable parameters for how you want to utilize the resources allocated for your job:
 
@@ -136,6 +134,10 @@ compute_jobspec.cwd = os.getcwd()
 compute_jobspec.environment = dict(os.environ)
 ```
 
-- `flux.job.submit(h, compute_jobspec, waitable=True)` submits the job to be run, and returns a job ID once it begins running.
+- Using the executor as a context manager (`with FluxExecutor() as executor`) ensures it shuts down properly.
 
-- `result = job.wait(h, jobid)` waits for a job to transition to the **INACTIVE** state, then returns a summary of the job result, either a **Success** or an **Error** string.
+- `executor.submit(jobspec)` returns a future which completes when the job is done.
+
+- `future.exception()` blocks until the future is complete and returns (not raises) an exception if the job was canceled or was otherwise prevented from execution. Otherwise the method returns ``None``.
+
+- `future.result()` blocks until the future is complete and returns the return code of the job. If the job succeeded, the return code will be 0.
