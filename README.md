@@ -17,9 +17,9 @@ Submit jobs and wait for them to complete using the Flux Python bindings
 
 Asynchronously submit jobspec files from a directory and wait for them to complete in any order
 
-**_5. [Python: Using Flux Job Status and Control API](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-status-control)_**
+**_5. [Python: Tracking Job Status and Events](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-status-control)_**
 
-Submit job bundles and wait until all jobs complete
+Submit job bundles, get event updates, and wait until all jobs complete
 
 **_6. [Python: Job Cancellation](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-cancel)_**
 
