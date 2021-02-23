@@ -1,6 +1,18 @@
 ## Python Asynchronous Bulk Job Submission
 
-### Description: Asynchronously submit jobspec files from a directory and wait for them to complete in any order
+Parts (a) and (b) demonstrate different implementations of the same basic use-case---
+submitting large numbers of jobs to Flux. For simplicity, in these examples all of the jobs are identical.
+
+In part (a), we use the `flux.job.submit_async` and `flux.job.wait` functions to submit jobs and wait for them.
+In part (b), we use the `FluxExecutor` class, which offers a higher-level interface. It is important to note that
+these two different implementations deal with very different kinds of futures.
+The executor's futures fulfill in the background and callbacks added to the futures may
+be invoked by different threads; the `submit_async` futures do not fulfill in the background, callbacks are always
+invoked by the same thread that added them, and sharing the futures among threads is not supported.
+
+### Part (a) - Using `submit_async`
+
+#### Description: Asynchronously submit jobspec files from a directory and wait for them to complete in any order
 
 1. Allocate three nodes from a resource manager:
 
@@ -34,13 +46,13 @@ bulksubmit: First job finished in about 3.089s
 bulksubmit: Ran 1025 jobs in 34.9s. 29.4 job/s
 ```
 
-### Notes
+### Notes to Part (a)
 
 - `h = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
 
 - `job_submit_async(h, jobspec.read(), waitable=True).then(submit_cb)` submits a jobspec, returning a future which will be fulfilled when the submission of this job is complete.
 
-`.then(submit_cb)`, called on the returned future, will cause our callback `submit_cb()` to be invoked when the submission of this job is complete and a jobid is available. To process job submission RPC responses and invoke callabacks, the flux reactor for handle `h` must be run:
+`.then(submit_cb)`, called on the returned future, will cause our callback `submit_cb()` to be invoked when the submission of this job is complete and a jobid is available. To process job submission RPC responses and invoke callbacks, the flux reactor for handle `h` must be run:
 
 ```python
 if h.reactor_run() < 0:
@@ -50,3 +62,29 @@ if h.reactor_run() < 0:
 The reactor will return automatically when there are no more outstanding RPC responses, i.e., all jobs have been submitted.
 
 - `job.wait(h)` waits for any job submitted with the `FLUX_JOB_WAITABLE` flag to transition to the **INACTIVE** state.
+
+
+### Part (b) - Using FluxExecutor
+
+#### Description: Asynchronously submit a single command repeatedly
+
+If continuing from part (a), skip to step 3.
+
+1. Allocate three nodes from a resource manager:
+
+`salloc -N3 -ppdebug`
+
+2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3. Run the **bulksubmit_executor.py** script and pass the command (`/bin/sleep 0` in this example) and the number of times to run it (default is 100):
+
+`./bulksubmit_executor.py -n200 /bin/sleep 0`
+
+```
+bulksubmit_executor: submitted 200 jobs in 0.45s. 441.15job/s
+bulksubmit_executor: First job finished in about 1.035s
+|██████████████████████████████████████████████████████████| 100.0% (24.9 job/s)
+bulksubmit_executor: Ran 200 jobs in 8.2s. 24.4 job/s
+```

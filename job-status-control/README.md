@@ -1,6 +1,6 @@
 ## Using Flux Job Status and Control API
 
-### Description: Submit job bundles and wait until all jobs complete
+### Description: Submit job bundles, get event updates, and wait until all jobs complete
 
 1. Allocate three nodes from a resource manager:
 
@@ -15,29 +15,32 @@
 `./bookkeeper.py 2`
 
 ```
-17341081452544
-17341383442432
 bookkeeper: all jobs submitted
 bookkeeper: waiting until all jobs complete
-job 17341081452544 changed its state to DEPEND
-job 17341081452544 changed its state to SCHED
-job 17341081452544 changed its state to RUN
-job 17341383442432 changed its state to DEPEND
-job 17341383442432 changed its state to SCHED
-job 17341081452544 changed its state to CLEANUP
-job 17341081452544 changed its state to INACTIVE
-job 17341383442432 changed its state to RUN
-job 17341383442432 changed its state to CLEANUP
-job 17341383442432 changed its state to INACTIVE
+job 39040581632 triggered event 'submit'
+job 39040581633 triggered event 'submit'
+job 39040581632 triggered event 'depend'
+job 39040581632 triggered event 'priority'
+job 39040581632 triggered event 'alloc'
+job 39040581633 triggered event 'depend'
+job 39040581633 triggered event 'priority'
+job 39040581633 triggered event 'alloc'
+job 39040581632 triggered event 'start'
+job 39040581633 triggered event 'start'
+job 39040581632 triggered event 'finish'
+job 39040581633 triggered event 'finish'
+job 39040581633 triggered event 'release'
+job 39040581633 triggered event 'free'
+job 39040581633 triggered event 'clean'
+job 39040581632 triggered event 'release'
+job 39040581632 triggered event 'free'
+job 39040581632 triggered event 'clean'
 bookkeeper: all jobs completed
 ```
 
 ---
 
 ### Notes
-
-- `f = flux.Flux()` creates a new Flux handle which can be used to connect to and interact with a Flux instance.
-
 
 - The following constructs a job request using the **JobspecV1** class with customizable parameters for how you want to utilize the resources allocated for your job:
 ```python
@@ -48,14 +51,8 @@ compute_jobreq.cwd = os.getcwd()
 compute_jobreq.environment = dict(os.environ)
 ```
 
-- `flux.job.submit(f, compute_jobreq)` submits the job to be run, and returns a job ID once it begins running.
+- `with FluxExecutor() as executor:` creates a new `FluxExecutor` which can be used to submit jobs, wait for them to complete, and get event updates. Using the executor as a context manager (`with ... as ...:`) ensures it is shut down properly.
 
-- Throughout the course of a job, its state will go through a number of changes. The following subscribes to the event messages matching the transition of those states in the jobs submitted.
-```python
-    f.event_subscribe("job-state")
-    f.msg_watcher_create(job_state_cb, 0, "job-state").start()
-    submit_bundles(f, njobs)
-    print("bookkeeper: waiting until all jobs complete")
-    f.reactor_run(f.get_reactor(), 0)
-    print("bookkeeper: all jobs completed")
-```
+- `executor.submit(compute_jobreq)` returns a `concurrent.futures.Future` subclass which completes when the underlying job is done. The jobid of the underlying job can be fetched with the `.jobid([timeout])` method (which waits until the jobid is ready).
+
+- Throughout the course of a job, various events will occur to it. `future.add_event_callback(event, event_callback)` adds a callback which will be invoked when the given event occurs.
