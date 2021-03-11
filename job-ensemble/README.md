@@ -2,6 +2,17 @@
 
 #### Description: Launch a flux instance and submit one instance of an io-forwarding job and 50 compute jobs, each spanning the entire set of nodes.
 
+#### Setup
+
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/job-ensemble
+```
+
+#### Execution
+
 1. `salloc -N3 -ppdebug`
 
 2. `cat ensemble.sh`

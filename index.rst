@@ -1,67 +1,79 @@
 Flux Workflow Examples
 ----------------------
 
-:doc:`Job Submit CLI <job-submit-cli/README>`
+The examples contained here demonstrate and explain some simple use-cases with Flux,
+and make use of Flux's command-line interface (CLI), Flux's C library, and the Python and Lua bindings to the C library.
+The entire set of examples can be downloaded by cloning the `Github repo <https://github.com/flux-framework/flux-workflow-examples>`_.
+
+The examples assume that you have installed:
+
+#. A recent version of Flux
+
+#. Python 3.6+
+
+#. Lua 5.1+
+
+:doc:`CLI: Job Submission <job-submit-cli/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Launch a flux instance and schedule/launch compute and io-forwarding
 jobs on separate nodes using the CLI
 
-:doc:`Job Submit API <job-submit-api/README>`
+:doc:`Python: Job Submission <job-submit-api/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Schedule/launch compute and io-forwarding jobs on separate nodes using
 the Python bindings
 
-:doc:`Python Job Submit/Wait <job-submit-wait/README>`
+:doc:`Python: Job Submit/Wait <job-submit-wait/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Submit jobs and wait for them to complete using the Flux Python bindings
 
-:doc:`Python Asynchronous Bulk Job Submission <async-bulk-job-submit/README>`
+:doc:`Python: Asynchronous Bulk Job Submission <async-bulk-job-submit/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Asynchronously submit jobspec files from a directory and wait for them
 to complete in any order
 
-:doc:`Using Flux Job Status and Control API <job-status-control/README>`
+:doc:`Python: Tracking Job Status and Events <job-status-control/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Submit job bundles and wait until all jobs complete
 
-:doc:`Job Cancellation <job-cancel/README>`
+:doc:`Python: Job Cancellation <job-cancel/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cancel a running job
 
-:doc:`Use Events <synchronize-events/README>`
+:doc:`Lua: Use Events <synchronize-events/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use events to synchronize compute and io-forwarding jobs running on
 separate nodes
 
-:doc:`Simple KVS Python Binding Example <kvs-python-bindings/README>`
+:doc:`Python: Simple KVS Example <kvs-python-bindings/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use KVS Python interfaces to store user data into KVS
 
-:doc:`Job Ensemble Submitted with a New Flux Instance <job-ensemble/README>`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:doc:`CLI/Lua: Job Ensemble Submitted with a New Flux Instance <job-ensemble/README>`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Submit job bundles, print live job events, and exit when all jobs are
 complete
 
-:doc:`Hierarchical Launching <hierarchical-launching/README>`
+:doc:`CLI: Hierarchical Launching <hierarchical-launching/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Launch a large number of sleep 0 jobs
 
-:doc:`Use a Flux Comms Module <comms-module/README>`
+:doc:`C/Lua: Use a Flux Comms Module <comms-module/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use a Flux Comms Module to communicate with job elements
 
-:doc:`A Data Conduit Strategy <data-conduit/README>`
+:doc:`C/Python: A Data Conduit Strategy <data-conduit/README>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Attach to a job that receives OS time data from compute jobs

@@ -1,5 +1,12 @@
 ## Python Job Submit/Wait
 
+To run the following examples, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/job-submit-wait
+```
+
 ### Part(a) - Python Job Submit/Wait
 
 #### Description: Submit jobs asynchronously and wait for them to complete in any order

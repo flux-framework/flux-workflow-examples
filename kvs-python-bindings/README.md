@@ -2,6 +2,13 @@
 
 ### Description: Use the KVS Python interface to store user data into KVS
 
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/kvs-python-bindings
+```
+
 1. Launch a Flux instance by running `flux start`, redirecting log messages to the file `out` in the current directory:
 
 `flux start -s 1 -o,-S,log-filename=out`

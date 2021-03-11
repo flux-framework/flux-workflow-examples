@@ -2,6 +2,13 @@
 
 #### Description: Using events to synchronize compute and io-forwarding jobs running on separate nodes
 
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/synchronize-events
+```
+
 1. `salloc -N3 -ppdebug`
 
 2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
