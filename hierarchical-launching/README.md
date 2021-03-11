@@ -2,6 +2,17 @@
 
 ### Description: Launch an ensemble of sleep 0 tasks
 
+#### Setup
+
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/hierarchical-launching
+```
+
+#### Execution
+
 1. `salloc -N3 -ppdebug`
 
 2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`

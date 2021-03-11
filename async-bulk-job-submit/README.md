@@ -1,7 +1,7 @@
 ## Python Asynchronous Bulk Job Submission
 
-Parts (a) and (b) demonstrate different implementations of the same basic use-case---
-submitting large numbers of jobs to Flux. For simplicity, in these examples all of the jobs are identical.
+Parts (a) and (b) demonstrate different implementations of the same basic use-case---submitting
+large numbers of jobs to Flux. For simplicity, in these examples all of the jobs are identical.
 
 In part (a), we use the `flux.job.submit_async` and `flux.job.wait` functions to submit jobs and wait for them.
 In part (b), we use the `FluxExecutor` class, which offers a higher-level interface. It is important to note that
@@ -9,6 +9,15 @@ these two different implementations deal with very different kinds of futures.
 The executor's futures fulfill in the background and callbacks added to the futures may
 be invoked by different threads; the `submit_async` futures do not fulfill in the background, callbacks are always
 invoked by the same thread that added them, and sharing the futures among threads is not supported.
+
+### Setup - Downloading the Files
+
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/async-bulk-job-submit
+```
 
 ### Part (a) - Using `submit_async`
 

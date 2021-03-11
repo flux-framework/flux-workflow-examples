@@ -2,6 +2,17 @@
 
 #### Description: Use a Flux comms module to communicate with job elements
 
+##### Setup
+
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/comms-module
+```
+
+##### Execution
+
 1. `salloc -N3 -ppdebug`
 
 2. Point to `flux-core`'s `pkgconfig` directory:

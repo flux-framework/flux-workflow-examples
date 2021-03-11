@@ -1,5 +1,12 @@
 ## Job Submit API
 
+To run the following examples, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/job-submit-api
+```
+
 ### Part(a) - Using a direct job.submit RPC
 
 #### Description: Schedule and launch compute and io-forwarding jobs on separate nodes

@@ -2,6 +2,17 @@
 
 ### Description: Submit job bundles, get event updates, and wait until all jobs complete
 
+#### Setup
+
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/job-status-control
+```
+
+#### Execution
+
 1. Allocate three nodes from a resource manager:
 
 `salloc -N3 -p pdebug`

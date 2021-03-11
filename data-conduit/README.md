@@ -2,6 +2,17 @@
 
 ### Description: Use a data stream to send packets through
 
+#### Setup
+
+If you haven't already, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/data-conduit
+```
+
+#### Execution
+
 1. Allocate three nodes from a resource manager:
 
 `salloc -N3 -ppdebug`
@@ -15,7 +26,7 @@
 
 3. `make`
 
-4. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was built in the current dir:
+4. Add the directory of the modules to `FLUX_MODULE_PATH`, if the module was built in the current directory:
 
 `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
 

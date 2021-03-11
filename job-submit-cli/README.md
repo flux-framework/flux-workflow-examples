@@ -1,4 +1,11 @@
-# Job Submit CLI
+## Job Submit CLI
+
+To run the following examples, download the files and change your working directory:
+
+```
+$ git clone https://github.com/flux-framework/flux-workflow-examples.git
+$ cd flux-workflow-examples/job-submit-cli
+```
 
 ### Part(a) - Partitioning Schedule
 

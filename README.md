@@ -1,5 +1,19 @@
 **Flux Workflow Examples**
 
+The examples contained here demonstrate and explain some simple use-cases with Flux,
+and make use of Flux's command-line interface (CLI), Flux's C library,
+and the Python and Lua bindings to the C library.
+
+**Requirements**
+
+The examples assume that you have installed:
+
+1. A recent version of Flux
+
+2. Python 3.6+
+
+3. Lua 5.1+
+
 **_1. [CLI: Job Submission](https://github.com/flux-framework/flux-workflow-examples/tree/master/job-submit-cli)_**
 
 Launch a flux instance and schedule/launch compute and io-forwarding jobs on
