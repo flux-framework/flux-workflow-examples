@@ -63,3 +63,7 @@ Use a Flux Comms Module to communicate with job elements
 **_12. [C/Python: A Data Conduit Strategy](https://github.com/flux-framework/flux-workflow-examples/tree/master/data-conduit)_**
 
 Attach to a job that receives OS time data from compute jobs
+
+**_13. [Python: Job Event Watch/Wait](https://github.com/flux-framework/flux-workflow-examples/tree/master/event-watch-wait)_**
+
+Use the Python bindings to wait on and watch for job events
