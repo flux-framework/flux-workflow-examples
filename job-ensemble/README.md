@@ -39,9 +39,25 @@ for i in ${JOBIDS}; do
 done
 ```
 
-2. `salloc -N3 -ppdebug`
+2. Allocate three nodes from the resource manager
 
-3. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out ./ensemble.sh`
+  If launching under Flux:
+
+     `flux mini alloc -N3`
+
+  If launching via Slurm:
+
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3.  Run the ensemble
+
+`./ensemble.sh`
 
 ```
        JOBID USER     NAME       ST NTASKS NNODES  RUNTIME NODELIST

@@ -23,27 +23,35 @@ $ cd flux-workflow-examples/async-bulk-job-submit
 
 #### Description: Asynchronously submit jobspec files from a directory and wait for them to complete in any order
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -ppdebug`
+  If launching under Flux:
 
-2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+     `flux mini alloc -N3`
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching via Slurm:
 
-3. Make a **jobs** directory:
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. Make a **jobs** directory:
 
 `mkdir jobs`
 
-4. Store the jobspec of a `sleep 0` job in the **jobs** directory:
+3. Store the jobspec of a `sleep 0` job in the **jobs** directory:
 
 `flux mini run --dry-run -n1 sleep 0 > jobs/0.json`
 
-5. Copy the jobspec of **job0** 1024 times to create a directory of 1025 `sleep 0` jobs:
+4. Copy the jobspec of **job0** 1024 times to create a directory of 1025 `sleep 0` jobs:
 
 ``for i in `seq 1 1024`; do cp jobs/0.json jobs/${i}.json; done``
 
-6. Run the **bulksubmit.py** script and pass all jobspec in the **jobs** directory as an argument with a shell glob `jobs/*.json`:
+5. Run the **bulksubmit.py** script and pass all jobspec in the **jobs** directory as an argument with a shell glob `jobs/*.json`:
 
 `./bulksubmit.py jobs/*.json`
 
@@ -79,15 +87,23 @@ The reactor will return automatically when there are no more outstanding RPC res
 
 If continuing from part (a), skip to step 3.
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -ppdebug`
+  If launching under Flux:
 
-2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+     `flux mini alloc -N3`
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching via Slurm:
 
-3. Run the **bulksubmit_executor.py** script and pass the command (`/bin/sleep 0` in this example) and the number of times to run it (default is 100):
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. Run the **bulksubmit_executor.py** script and pass the command (`/bin/sleep 0` in this example) and the number of times to run it (default is 100):
 
 `./bulksubmit_executor.py -n200 /bin/sleep 0`
 

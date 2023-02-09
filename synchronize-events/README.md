@@ -9,19 +9,31 @@ $ git clone https://github.com/flux-framework/flux-workflow-examples.git
 $ cd flux-workflow-examples/synchronize-events
 ```
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from the resource manager
 
-2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching under Flux:
 
-3. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
+     `flux mini alloc -N3`
+
+  If launching via Slurm:
+
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
 
 **Output -** `225284456448`
 
-4. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
+3. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
 
 **Output -** `344889229312`
 
-5. List running jobs:
+4. List running jobs:
 
 `flux jobs`
 
@@ -31,7 +43,7 @@ JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 ƒ6vEcj7M moussa1  compute.lu  R      4      2   11.51s [0-1]
 ```
 
-6. Attach to running or completed job output:
+5. Attach to running or completed job output:
 
 `flux job attach ƒ6vEcj7M`
 

@@ -11,15 +11,27 @@ $ cd flux-workflow-examples/job-submit-cli
 
 #### Description: Launch a flux instance and schedule/launch compute and io-forwarding jobs on separate nodes
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from the resource manager
 
-2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching under Flux:
 
-3. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
+     `flux mini alloc -N3`
 
-4. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
+  If launching via Slurm:
 
-5. List running jobs:
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
+
+3. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
+
+4. List running jobs:
 
 `flux jobs`
 
@@ -33,15 +45,27 @@ $ cd flux-workflow-examples/job-submit-cli
 
 #### Description: Launch a flux instance and schedule/launch both compute and io-forwarding jobs across all nodes
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from the resource manager
 
-2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching under Flux:
 
-3. `flux mini submit --nodes=3 --ntasks=6 --cores-per-task=2 ./compute.lua 120`
+     `flux mini alloc -N3`
 
-4. `flux mini submit --nodes=3 --ntasks=3 --cores-per-task=1 ./io-forwarding.lua 120`
+  If launching via Slurm:
 
-5. List running jobs:
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. `flux mini submit --nodes=3 --ntasks=6 --cores-per-task=2 ./compute.lua 120`
+
+3. `flux mini submit --nodes=3 --ntasks=3 --cores-per-task=1 ./io-forwarding.lua 120`
+
+4. List running jobs:
 
 `flux jobs`
 

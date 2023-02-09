@@ -13,35 +13,43 @@ $ cd flux-workflow-examples/data-conduit
 
 #### Execution
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -ppdebug`
+  If launching under Flux:
 
-2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+     `flux mini alloc -N3`
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching via Slurm:
 
-3. Point to `flux-core`'s `pkgconfig` directory:
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. Point to `flux-core`'s `pkgconfig` directory:
 
 | Shell     | Command                                                      |
 | -----     | ----------                                                   |
 | tcsh      | `setenv PKG_CONFIG_PATH <FLUX_INSTALL_PATH>/lib/pkgconfig`   |
 | bash/zsh  | `export PKG_CONFIG_PATH='<FLUX_INSTALL_PATH>/lib/pkgconfig'` |
 
-4. `make`
+3. `make`
 
-5. Add the directory of the modules to `FLUX_MODULE_PATH`, if the module was built in the current directory:
+4. Add the directory of the modules to `FLUX_MODULE_PATH`, if the module was built in the current directory:
 
 | Shell     | Command                                              |
 | -----     | ----------                                           |
 | tcsh      | `setenv FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$PWD`   |
 | bash/zsh  | `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)` |
 
-6. Submit the **datastore** script:
+5. Submit the **datastore** script:
 
 `flux mini submit -N 1 -n 1 ./datastore.py`
 
-7. Submit and resubmit five **compute** scripts to send time data to **datastore**:
+6. Submit and resubmit five **compute** scripts to send time data to **datastore**:
 
 `flux mini submit -N 1 -n 1 ./compute.py 1`
 
@@ -53,7 +61,7 @@ $ cd flux-workflow-examples/data-conduit
 
 `flux mini submit -N 1 -n 1 ./compute.py 1`
 
-8. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
+7. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
 
 `flux job attach f2wJPDi2b`
 

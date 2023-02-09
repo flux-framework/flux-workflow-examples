@@ -13,15 +13,23 @@ $ cd flux-workflow-examples/job-status-control
 
 #### Execution
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -p pdebug`
+  If launching under Flux:
 
-2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+     `flux mini alloc -N3`
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching via Slurm:
 
-3. Run the bookkeeper executable along with the number of jobs to be submitted (if no size is specified, 6 jobs are submitted: 3 instances of **compute.py**, and 3 instances of **io-forwarding,py**):
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. Run the bookkeeper executable along with the number of jobs to be submitted (if no size is specified, 6 jobs are submitted: 3 instances of **compute.py**, and 3 instances of **io-forwarding,py**):
 
 `./bookkeeper.py 2`
 
