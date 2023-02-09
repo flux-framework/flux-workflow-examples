@@ -52,7 +52,7 @@ $ cd flux-workflow-examples/data-conduit
 
 8. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
 
-`flux job attach 1900070043648`
+`flux job attach f2wJPDi2b`
 
 ```
 Starting....
