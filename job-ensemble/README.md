@@ -13,9 +13,7 @@ $ cd flux-workflow-examples/job-ensemble
 
 #### Execution
 
-1. `salloc -N3 -ppdebug`
-
-2. `cat ensemble.sh`
+1. `cat ensemble.sh`
 
 ```
 #!/usr/bin/env sh
@@ -40,6 +38,8 @@ for i in ${JOBIDS}; do
     flux kvs get ${KVSJOBID}.R | jq
 done
 ```
+
+2. `salloc -N3 -ppdebug`
 
 3. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out ./ensemble.sh`
 

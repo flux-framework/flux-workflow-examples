@@ -15,24 +15,24 @@ $ cd flux-workflow-examples/comms-module
 
 1. `salloc -N3 -ppdebug`
 
-2. Point to `flux-core`'s `pkgconfig` directory:
+2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3. Point to `flux-core`'s `pkgconfig` directory:
 
 | Shell     | Command                                                      |
 | -----     | ----------                                                   |
 | tcsh      | `setenv PKG_CONFIG_PATH <FLUX_INSTALL_PATH>/lib/pkgconfig`   |
 | bash/zsh  | `export PKG_CONFIG_PATH='<FLUX_INSTALL_PATH>/lib/pkgconfig'` |
 
-3. `make`
+4. `make`
 
-4. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was
+5. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was
 built in the current dir:
 
 | Shell     | Command                                              |
 | -----     | ----------                                           |
 | tcsh      | `setenv FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$PWD`   |
 | bash/zsh  | `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)` |
-
-5. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
 6. `flux mini submit -N 2 -n 2 ./compute.lua 120`
 

@@ -17,25 +17,25 @@ $ cd flux-workflow-examples/data-conduit
 
 `salloc -N3 -ppdebug`
 
-2. Point to `flux-core`'s `pkgconfig` directory:
+2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+
+`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3. Point to `flux-core`'s `pkgconfig` directory:
 
 | Shell     | Command                                                      |
 | -----     | ----------                                                   |
 | tcsh      | `setenv PKG_CONFIG_PATH <FLUX_INSTALL_PATH>/lib/pkgconfig`   |
 | bash/zsh  | `export PKG_CONFIG_PATH='<FLUX_INSTALL_PATH>/lib/pkgconfig'` |
 
-3. `make`
+4. `make`
 
-4. Add the directory of the modules to `FLUX_MODULE_PATH`, if the module was built in the current directory:
+5. Add the directory of the modules to `FLUX_MODULE_PATH`, if the module was built in the current directory:
 
 | Shell     | Command                                              |
 | -----     | ----------                                           |
 | tcsh      | `setenv FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$PWD`   |
 | bash/zsh  | `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)` |
-
-5. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
-
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
 6. Submit the **datastore** script:
 

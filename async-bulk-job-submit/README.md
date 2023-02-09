@@ -27,13 +27,13 @@ $ cd flux-workflow-examples/async-bulk-job-submit
 
 `salloc -N3 -ppdebug`
 
-2. Make a **jobs** directory:
-
-`mkdir jobs`
-
-3. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
 
 `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3. Make a **jobs** directory:
+
+`mkdir jobs`
 
 4. Store the jobspec of a `sleep 0` job in the **jobs** directory:
 
