@@ -23,7 +23,7 @@ $ cd flux-workflow-examples/job-submit-cli
 
 `flux jobs`
 
-```  
+```
 JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 ƒ3ETxsR9H moussa1  io-forward  R      1      1   2.858s 2
 ƒ38rBqEWT moussa1  compute.lu  R      4      2    15.6s [0-1]

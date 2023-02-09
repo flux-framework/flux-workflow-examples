@@ -55,7 +55,7 @@ JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 
 `salloc -N3 -p pdebug`
 
-2. Launch another Flux instance on the current allocation:  
+2. Launch another Flux instance on the current allocation:
 
 `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
