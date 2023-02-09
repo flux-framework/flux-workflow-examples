@@ -36,19 +36,19 @@ $ cd flux-workflow-examples/data-conduit
 
 6. Submit the **datastore** script:
 
-`flux submit -N 1 -n 1 ./datastore.py`
+`flux mini submit -N 1 -n 1 ./datastore.py`
 
 7. Submit and resubmit five **compute** scripts to send time data to **datastore**:
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
 8. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
 

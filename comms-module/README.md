@@ -31,6 +31,6 @@ built in the current dir:
 
 5. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
-6. `flux submit -N 2 -n 2 ./compute.lua 120`
+6. `flux mini submit -N 2 -n 2 ./compute.lua 120`
 
-7. `flux submit -N 1 -n 1 ./io-forwarding.lua 120`
+7. `flux mini submit -N 1 -n 1 ./io-forwarding.lua 120`
