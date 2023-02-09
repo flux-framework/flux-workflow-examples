@@ -1,5 +1,5 @@
-pull_request_rules:
-  - name: rebase and merge when passing all checks
+queue_rules:
+  - name: default
     conditions:
       - base=master
       - status-success="check formatting (3.6)"
@@ -11,8 +11,19 @@ pull_request_rules:
       - "#approved-reviews-by>0"
       - "#changes-requested-reviews-by=0"
       - -title~=^\[*[Ww][Ii][Pp]
+
+pull_request_rules:
+  - name: rebase and merge when passing all checks
+    conditions:
+      - base=master
+      - label="merge-when-passing"
+      - label!="work-in-progress"
+      - -title~=^\[*[Ww][Ii][Pp]
+      - "approved-reviews-by=@flux-framework/core"
+      - "#approved-reviews-by>0"
+      - "#changes-requested-reviews-by=0"
     actions:
-      merge:
+      queue:
+        name: default
         method: merge
-        strict: smart
-        strict_method: rebase
+        update_method: rebase
