@@ -28,7 +28,10 @@ $ cd flux-workflow-examples/data-conduit
 
 4. Add the directory of the modules to `FLUX_MODULE_PATH`, if the module was built in the current directory:
 
-`export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
+| Shell     | Command                                              |
+| -----     | ----------                                           |
+| tcsh      | `setenv FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$PWD`   |
+| bash/zsh  | `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)` |
 
 5. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
 

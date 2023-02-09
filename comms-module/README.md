@@ -27,7 +27,10 @@ $ cd flux-workflow-examples/comms-module
 4. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was
 built in the current dir:
 
-`export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
+| Shell     | Command                                              |
+| -----     | ----------                                           |
+| tcsh      | `setenv FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$PWD`   |
+| bash/zsh  | `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)` |
 
 5. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
