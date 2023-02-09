@@ -32,15 +32,15 @@ hello world again
 
 4. Each job is run within a KVS namespace. `FLUX_KVS_NAMESPACE` is set, which is automatically read and used by the KVS operations in the handle. To take a look at the job's KVS, convert its job ID to KVS:
 
-`flux job id --from=dec --to=kvs f9W8G7dR`
+`flux job id --to=kvs f9W8G7dR`
 
 ```
-job.0000.0619.2300.0000
+job.0000.004b.5c00.0000
 ```
 
 5. The keys for this job will be put at the root of the namespace, which is mounted under "guest". To get the value stored under the first key "usrdata":
 
-`flux kvs get job.0000.0619.2300.0000.guest.usrdata`
+`flux kvs get job.0000.004b.5c00.0000.guest.usrdata`
 
 ```
 "hello world"
@@ -48,7 +48,7 @@ job.0000.0619.2300.0000
 
 6. Get the value stored under the second key "usrdata2":
 
-`flux kvs get job.0000.0619.2300.0000.guest.usrdata2`
+`flux kvs get job.0000.004b.5c00.0000.guest.usrdata2`
 
 ```
 "hello world again"
