@@ -18,12 +18,12 @@ $ cd flux-workflow-examples/kvs-python-bindings
 `flux mini submit -N 1 -n 1 ./kvsput-usrdata.py`
 
 ```
-6705031151616
+f9W8G7dR
 ```
 
 3. Attach to the job and view output:
 
-`flux job attach 6705031151616`
+`flux job attach f9W8G7dR`
 
 ```
 hello world
@@ -32,7 +32,7 @@ hello world again
 
 4. Each job is run within a KVS namespace. `FLUX_KVS_NAMESPACE` is set, which is automatically read and used by the KVS operations in the handle. To take a look at the job's KVS, convert its job ID to KVS:
 
-`flux job id --from=dec --to=kvs 6705031151616`
+`flux job id --from=dec --to=kvs f9W8G7dR`
 
 ```
 job.0000.0619.2300.0000
