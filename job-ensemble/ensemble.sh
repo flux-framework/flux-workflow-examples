@@ -16,6 +16,6 @@ flux queue drain
 for i in ${JOBIDS}; do
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "Jobid: ${i}"
-    KVSJOBID=$(flux job id --from=dec --to=kvs ${i})
+    KVSJOBID=$(flux job id --to=kvs ${i})
     flux kvs get ${KVSJOBID}.R | jq
 done
