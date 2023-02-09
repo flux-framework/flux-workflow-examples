@@ -87,8 +87,8 @@ static void conduit_put_request_cb (flux_t *h, flux_msg_handler_t *w,
     if (conduit_send (h, data) < 0)
         errno = EPROTO;
 done:
-    if (flux_respond (h, msg, errno, NULL) < 0)
-        flux_log_error (h, "%s: flux_respond", __FUNCTION__);
+    if (flux_respond_error (h, msg, errno, NULL) < 0)
+        flux_log_error (h, "%s: flux_respond_error", __FUNCTION__);
 }
 
 /* open the Unix domain socket to talk to datastore.py */
@@ -159,7 +159,7 @@ int mod_main (flux_t *h, int argc, char **argv)
      */
     flux_kvs_txn_t *txn = flux_kvs_txn_create ();
     flux_kvs_txn_pack (txn, 0, "conduit", "i", rank);
-    flux_kvs_commit (h, 0, txn);
+    flux_kvs_commit (h, NULL, 0, txn);
     flux_kvs_txn_destroy (txn);
     if (flux_msg_handler_addvec (h, htab, (void *)h,
                                  &ctx->handlers) < 0) {
