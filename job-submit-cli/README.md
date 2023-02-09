@@ -41,7 +41,7 @@ JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 
 4. `flux mini submit --nodes=3 --ntasks=3 --cores-per-task=1 ./io-forwarding.lua 120`
 
-5. List jobs in KVS:
+5. List running jobs:
 
 `flux jobs`
 
