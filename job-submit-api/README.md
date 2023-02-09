@@ -33,20 +33,6 @@ JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 ƒ5Vd2kJs moussa1  compute.py  R      4      2   19.18s [0-1]
 ```
 
-5. Information about jobs, such as the submitted job specification, an eventlog, and the resource description format **R** are stored in the KVS. The data can be queried via the `job-info` module via the `flux job info` command. For example, to fetch **R** for a job which has been allocated resources:
-
-`flux job info ƒ5W8gVwm R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0"}}]}}
-```
-
-`flux job info ƒ5Vd2kJs R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
-```
-
 ### Part(b) - Using a direct job.submit RPC
 
 #### Description: Schedule and launch both compute and io-forwarding jobs across all nodes
@@ -71,20 +57,6 @@ JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 ƒctYadhh moussa1  io-forward  R      3      3   3.058s [0-2]
 ƒct1StnT moussa1  compute.py  R      6      3   3.086s [0-2]
-```
-
-5. Fetch **R** for the jobs that have been allocated resources:
-
-`flux job info ƒctYadhh R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}
-```
-
-`flux job info ƒct1StnT R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}
 ```
 
 ---

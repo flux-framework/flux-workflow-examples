@@ -29,20 +29,6 @@ JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 ƒ38rBqEWT moussa1  compute.lu  R      4      2    15.6s [0-1]
 ```
 
-6. Get information about job:
-
-`flux job info ƒ3ETxsR9H R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0-1"}}]}}
-```
-
-`flux job info ƒ38rBqEWT R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
-```
-
 ### Part(b) - Overlapping Schedule
 
 #### Description: Launch a flux instance and schedule/launch both compute and io-forwarding jobs across all nodes
@@ -64,18 +50,4 @@ JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 ƒ3ghmgCpw moussa1  io-forward  R      3      3   16.91s [0-2]
 ƒ3dSybfQ3 moussa1  compute.lu  R      6      3    24.3s [0-2]
 
-```
-
-6. Get information about job:
-
-`flux job info ƒ3ghmgCpw R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"4"}}]}}
-```
-
-`flux job info ƒ3dSybfQ3 R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}
 ```
