@@ -24,9 +24,9 @@ $ cd flux-workflow-examples/job-submit-cli
 `flux jobs`
 
 ```
-JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
-ƒ3ETxsR9H moussa1  io-forward  R      1      1   2.858s 2
-ƒ38rBqEWT moussa1  compute.lu  R      4      2    15.6s [0-1]
+       JOBID USER     NAME       ST NTASKS NNODES     TIME INFO
+    fBeKwwvw achu     io-forwar+  R      1      1   53.84s corona180
+    f8usei1M achu     compute.l+  R      4      2   1.001m corona[181-182]
 ```
 
 ### Part(b) - Overlapping Schedule
@@ -46,8 +46,7 @@ JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 `flux jobs`
 
 ```
-JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
-ƒ3ghmgCpw moussa1  io-forward  R      3      3   16.91s [0-2]
-ƒ3dSybfQ3 moussa1  compute.lu  R      6      3    24.3s [0-2]
-
+       JOBID USER     NAME       ST NTASKS NNODES     TIME INFO
+    fMaFAxLF achu     compute.l+  R      6      3   14.82s corona[183-185]
+    fJebX8yd achu     io-forwar+  R      3      3   21.46s corona[183-185]
 ```

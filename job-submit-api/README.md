@@ -28,9 +28,9 @@ $ cd flux-workflow-examples/job-submit-api
 `flux jobs`
 
 ```
-JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
-ƒ5W8gVwm moussa1  io-forward  R      1      1   19.15s 2
-ƒ5Vd2kJs moussa1  compute.py  R      4      2   19.18s [0-1]
+       JOBID USER     NAME       ST NTASKS NNODES     TIME INFO
+    fAWRwsRy achu     io-forwar+  R      1      1   41.41s corona180
+    fAVntBPM achu     compute.py  R      4      2   41.44s corona[181-182]
 ```
 
 ### Part(b) - Using a direct job.submit RPC
@@ -54,9 +54,9 @@ JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
 `flux jobs`
 
 ```
-JOBID    USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
-ƒctYadhh moussa1  io-forward  R      3      3   3.058s [0-2]
-ƒct1StnT moussa1  compute.py  R      6      3   3.086s [0-2]
+       JOBID USER     NAME       ST NTASKS NNODES     TIME INFO
+    ƒ3xfmqcs achu     io-forwar+  R      3      3   2.179s corona[186-188]
+    ƒ3x2i9aF achu     compute.py  R      6      3   2.204s corona[186-188]
 ```
 
 ---
