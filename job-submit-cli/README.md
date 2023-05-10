@@ -11,71 +11,66 @@ $ cd flux-workflow-examples/job-submit-cli
 
 #### Description: Launch a flux instance and schedule/launch compute and io-forwarding jobs on separate nodes
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from the resource manager
 
-2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching under Flux:
 
-3. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
+     `flux mini alloc -N3`
 
-4. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
+  If launching via Slurm:
 
-5. List running jobs:
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. `flux mini submit --nodes=2 --ntasks=4 --cores-per-task=2 ./compute.lua 120`
+
+3. `flux mini submit --nodes=1 --ntasks=1 --cores-per-task=2 ./io-forwarding.lua 120`
+
+4. List running jobs:
 
 `flux jobs`
 
-```  
-JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
-ƒ3ETxsR9H moussa1  io-forward  R      1      1   2.858s 2
-ƒ38rBqEWT moussa1  compute.lu  R      4      2    15.6s [0-1]
 ```
-
-6. Get information about job:
-
-`flux job info ƒ3ETxsR9H R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"2","children":{"core":"0-1"}}]}}
-```
-
-`flux job info ƒ38rBqEWT R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-1","children":{"core":"0-3"}}]}}
+       JOBID USER     NAME       ST NTASKS NNODES     TIME INFO
+    fBeKwwvw achu     io-forwar+  R      1      1   53.84s corona180
+    f8usei1M achu     compute.l+  R      4      2   1.001m corona[181-182]
 ```
 
 ### Part(b) - Overlapping Schedule
 
 #### Description: Launch a flux instance and schedule/launch both compute and io-forwarding jobs across all nodes
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from the resource manager
 
-2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching under Flux:
 
-3. `flux mini submit --nodes=3 --ntasks=6 --cores-per-task=2 ./compute.lua 120`
+     `flux mini alloc -N3`
 
-4. `flux mini submit --nodes=3 --ntasks=3 --cores-per-task=1 ./io-forwarding.lua 120`
+  If launching via Slurm:
 
-5. List jobs in KVS:
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. `flux mini submit --nodes=3 --ntasks=6 --cores-per-task=2 ./compute.lua 120`
+
+3. `flux mini submit --nodes=3 --ntasks=3 --cores-per-task=1 ./io-forwarding.lua 120`
+
+4. List running jobs:
 
 `flux jobs`
 
 ```
-JOBID     USER     NAME       ST NTASKS NNODES  RUNTIME RANKS
-ƒ3ghmgCpw moussa1  io-forward  R      3      3   16.91s [0-2]
-ƒ3dSybfQ3 moussa1  compute.lu  R      6      3    24.3s [0-2]
-
-```
-
-6. Get information about job:
-
-`flux job info ƒ3ghmgCpw R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"4"}}]}}
-```
-
-`flux job info ƒ3dSybfQ3 R`
-
-```
-{"version":1,"execution":{"R_lite":[{"rank":"0-2","children":{"core":"0-3"}}]}}
+       JOBID USER     NAME       ST NTASKS NNODES     TIME INFO
+    fMaFAxLF achu     compute.l+  R      6      3   14.82s corona[183-185]
+    fJebX8yd achu     io-forwar+  R      3      3   21.46s corona[183-185]
 ```

@@ -13,7 +13,21 @@ $ cd flux-workflow-examples/comms-module
 
 ##### Execution
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from the resource manager
+
+  If launching under Flux:
+
+     `flux mini alloc -N3`
+
+  If launching via Slurm:
+
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
 2. Point to `flux-core`'s `pkgconfig` directory:
 
@@ -27,10 +41,11 @@ $ cd flux-workflow-examples/comms-module
 4. Add the directory of the modules to `FLUX_MODULE_PATH`; if the module was
 built in the current dir:
 
-`export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
+| Shell     | Command                                              |
+| -----     | ----------                                           |
+| tcsh      | `setenv FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$PWD`   |
+| bash/zsh  | `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)` |
 
-5. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+5. `flux mini submit -N 2 -n 2 ./compute.lua 120`
 
-6. `flux submit -N 2 -n 2 ./compute.lua 120`
-
-7. `flux submit -N 1 -n 1 ./io-forwarding.lua 120`
+6. `flux mini submit -N 1 -n 1 ./io-forwarding.lua 120`

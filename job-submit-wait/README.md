@@ -11,15 +11,23 @@ $ cd flux-workflow-examples/job-submit-wait
 
 #### Description: Submit jobs asynchronously and wait for them to complete in any order
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -ppdebug`
+  If launching under Flux:
 
-2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+     `flux mini alloc -N3`
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching via Slurm:
 
-3. Submit the **submitter_wait_any.py** script, along with the number of jobs you want to run (if no argument is passed, 10 jobs are submitted):
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. Submit the **submitter_wait_any.py** script, along with the number of jobs you want to run (if no argument is passed, 10 jobs are submitted):
 
 `./submitter_wait_any.py 10`
 
@@ -52,15 +60,23 @@ wait: 46912591362984 Success
 
 #### Description: Asynchronously submit jobs and keep at most a number of those jobs active
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -ppdebug`
+  If launching under Flux:
 
-2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+     `flux mini alloc -N3`
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching via Slurm:
 
-3. Submit the **submitter_sliding_window.py** script, along with the number of jobs you want to run and the size of the window (if no argument is passed, 10 jobs are submitted and the window size is 2 jobs):
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. Submit the **submitter_sliding_window.py** script, along with the number of jobs you want to run and the size of the window (if no argument is passed, 10 jobs are submitted and the window size is 2 jobs):
 
 `./submitter_sliding_window.py 10 3`
 
@@ -93,15 +109,23 @@ wait: 6164435697664 Success
 
 #### Description: Asynchronously submit jobs, block/wait for specific jobs to complete
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -ppdebug`
+  If launching under Flux:
 
-2. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+     `flux mini alloc -N3`
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching via Slurm:
 
-3. Submit the **submitter_wait_in_order.py** script, along with the number of jobs you want to run (if no argument is passed, 10 jobs are submitted):
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. Submit the **submitter_wait_in_order.py** script, along with the number of jobs you want to run (if no argument is passed, 10 jobs are submitted):
 
 `./submitter_wait_in_order.py 10`
 

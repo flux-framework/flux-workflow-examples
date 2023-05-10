@@ -13,9 +13,7 @@ $ cd flux-workflow-examples/job-ensemble
 
 #### Execution
 
-1. `salloc -N3 -ppdebug`
-
-2. `cat ensemble.sh`
+1. `cat ensemble.sh`
 
 ```
 #!/usr/bin/env sh
@@ -41,19 +39,85 @@ for i in ${JOBIDS}; do
 done
 ```
 
-3. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out ./ensemble.sh`
+2. Allocate three nodes from the resource manager
+
+  If launching under Flux:
+
+     `flux mini alloc -N3`
+
+  If launching via Slurm:
+
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+3.  Run the ensemble
+
+`./ensemble.sh`
 
 ```
-JOBID         USER      NAME       STATE    NTASKS NNODES  RUNTIME RANKS
-1721426247680 fluxuser  compute.lu RUN           4      2   0.122s [1-2]
-1718322462720 fluxuser  compute.lu RUN           4      2   0.293s [0,2]
-1715201900544 fluxuser  compute.lu RUN           4      2   0.481s [0-1]
-1712299442176 fluxuser  compute.lu RUN           4      2   0.626s [1-2]
-1709296320512 fluxuser  compute.lu RUN           4      2   0.885s [0,2]
-1706293198848 fluxuser  compute.lu RUN           4      2   1.064s [0-1]
-1691378253824 fluxuser  io-forward RUN           1      1   1.951s 0
+       JOBID USER     NAME       ST NTASKS NNODES  RUNTIME NODELIST
+   f3faERxGo achu     compute.lu  R      4      2   0.163s opal[63,65]
+   f3fV7vRuq achu     compute.lu  R      4      2   0.363s opal[63,65]
+   f3fPrWyro achu     compute.lu  R      4      2   0.569s opal[63,65]
+   f3fJWfZxj achu     compute.lu  R      4      2   0.777s opal[63,65]
+   f3fCwUGXZ achu     compute.lu  R      4      2   0.998s opal[63-64]
+   f3efRVY4P achu     io-forward  R      1      1   2.228s opal65
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jobid: f3efRVY4P
+{
+  "version": 1,
+  "execution": {
+    "R_lite": [
+      {
+        "rank": "2",
+        "children": {
+          "core": "34-35"
+        }
+      }
+    ],
+    "nodelist": [
+      "opal65"
+    ],
+    "starttime": 1675955769,
+    "expiration": 1676560569
+  }
+}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Jobid: 1691378253824
+Jobid: f3ekdw1Yj
+{
+  "version": 1,
+  "execution": {
+    "R_lite": [
+      {
+        "rank": "2",
+        "children": {
+          "core": "30-33"
+        }
+      },
+      {
+        "rank": "1",
+        "children": {
+          "core": "32-35"
+        }
+      }
+    ],
+    "nodelist": [
+      "opal[64-65]"
+    ],
+    "starttime": 1675955770,
+    "expiration": 1676560570
+  }
+}
+.
+.
+.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jobid: f3faERxGo
 {
   "version": 1,
   "execution": {
@@ -61,43 +125,21 @@ Jobid: 1691378253824
       {
         "rank": "0",
         "children": {
-          "core": "0-1"
+          "core": "16-19"
         }
-      }
-    ]
-  }
-}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Jobid: 1694414929920
-{
-  "version": 1,
-  "execution": {
-    "R_lite": [
+      },
       {
-        "rank": "1-2",
+        "rank": "2",
         "children": {
-          "core": "0-3"
+          "core": "18-21"
         }
       }
-    ]
-  }
-}
-.
-.
-.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Jobid: 1721426247680
-{
-  "version": 1,
-  "execution": {
-    "R_lite": [
-      {
-        "rank": "1-2",
-        "children": {
-          "core": "8-11"
-        }
-      }
-    ]
+    ],
+    "nodelist": [
+      "opal[63,65]"
+    ],
+    "starttime": 1675955771,
+    "expiration": 1676560571
   }
 }
 

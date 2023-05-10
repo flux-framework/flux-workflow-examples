@@ -13,11 +13,23 @@ $ cd flux-workflow-examples/hierarchical-launching
 
 #### Execution
 
-1. `salloc -N3 -ppdebug`
+1. Allocate three nodes from the resource manager
 
-2. `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+  If launching under Flux:
 
-3. `./parent.sh`
+     `flux mini alloc -N3`
+
+  If launching via Slurm:
+
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+
+2. `./parent.sh`
 
 ```
 Mon Nov 18 15:31:08 PST 2019

@@ -13,9 +13,21 @@ $ cd flux-workflow-examples/data-conduit
 
 #### Execution
 
-1. Allocate three nodes from a resource manager:
+1. Allocate three nodes from the resource manager
 
-`salloc -N3 -ppdebug`
+  If launching under Flux:
+
+     `flux mini alloc -N3`
+
+  If launching via Slurm:
+
+     A. `salloc -N3 -ppdebug`
+
+     B. Launch a Flux instance on the current allocation by running `flux start`
+        once per node, redirecting log messages to the file `out` in the current
+        directory:
+
+        `srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
 
 2. Point to `flux-core`'s `pkgconfig` directory:
 
@@ -28,31 +40,30 @@ $ cd flux-workflow-examples/data-conduit
 
 4. Add the directory of the modules to `FLUX_MODULE_PATH`, if the module was built in the current directory:
 
-`export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)`
+| Shell     | Command                                              |
+| -----     | ----------                                           |
+| tcsh      | `setenv FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$PWD`   |
+| bash/zsh  | `export FLUX_MODULE_PATH=${FLUX_MODULE_PATH}:$(pwd)` |
 
-5. Launch a Flux instance on the current allocation by running `flux start` once per node, redirecting log messages to the file `out` in the current directory:
+5. Submit the **datastore** script:
 
-`srun --pty --mpi=none -N3 flux start -o,-S,log-filename=out`
+`flux mini submit -N 1 -n 1 ./datastore.py`
 
-6. Submit the **datastore** script:
+6. Submit and resubmit five **compute** scripts to send time data to **datastore**:
 
-`flux submit -N 1 -n 1 ./datastore.py`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-7. Submit and resubmit five **compute** scripts to send time data to **datastore**:
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+`flux mini submit -N 1 -n 1 ./compute.py 1`
 
-`flux submit -N 1 -n 1 ./compute.py 1`
+7. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
 
-`flux submit -N 1 -n 1 ./compute.py 1`
-
-8. Attach to the **datastore** job to see the data sent by the **compute.py** scripts:
-
-`flux job attach 1900070043648`
+`flux job attach f2wJPDi2b`
 
 ```
 Starting....
