@@ -1,3 +1,11 @@
+**WARNING**
+
+This repository has been archived. It is no longer maintained and it is
+likely the examples do not work or are no longer good or suggested
+examples.
+
+Please look elswhere for examples.
+
 **Flux Workflow Examples**
 
 The examples contained here demonstrate and explain some simple use-cases with Flux,
